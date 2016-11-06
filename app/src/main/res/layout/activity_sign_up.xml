@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_sign_up"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    tools:context="watmok.tacoma.uw.edu.mylogin.SignUPActivity">
+
+    <EditText
+        android:id="@+id/editTextUserName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="User Name"
+        tools:ignore="HardcodedText">
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        tools:ignore="HardcodedText" />
+
+    <EditText
+        android:id="@+id/editTextConfirmPassword"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/buttonCreateAccount"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="60dp"
+        android:text="Create Account"
+        tools:ignore="HardcodedText" />
+
+</LinearLayout>
