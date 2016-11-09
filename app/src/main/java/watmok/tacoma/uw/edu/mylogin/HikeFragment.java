@@ -23,20 +23,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A fragment representing a list of Items.
+ * A fragment representing a list of Hikes.
  * <p/>
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
 public class HikeFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
+    /**
+     * Fields used to identify the column count and webservice URL for objects calling this fragment.
+     */
     private static final String ARG_COLUMN_COUNT = "column-count";
     private static final String HIKES_URL = "http://cssgate.insttech.washington.edu/~debergma/hikes.php?cmd=hikes";
 
-    // TODO: Customize parameters
+    /**
+     * Variable to keep track of column count
+     */
     private int mColumnCount = 1;
+    /**
+     * Listener for interaction with the fragment, taken from the Activity that contains it.
+     */
     private OnListFragmentInteractionListener mListener;
+    /**
+     * the RecyclerView that will be used to display Hikes inside this fragment
+     */
     private RecyclerView mRecyclerView;
 
     /**
@@ -46,8 +56,11 @@ public class HikeFragment extends Fragment {
     public HikeFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
+    /**
+     * for creating a HikeFagment instance. Not used.
+     * @param columnCount the number of columsn in the list
+     * @return a new HikeFragment
+     */
     public static HikeFragment newInstance(int columnCount) {
         HikeFragment fragment = new HikeFragment();
         Bundle args = new Bundle();
@@ -56,6 +69,11 @@ public class HikeFragment extends Fragment {
         return fragment;
     }
 
+
+    /**
+     * Standard onCreate method
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +83,15 @@ public class HikeFragment extends Fragment {
         }
     }
 
+    /**
+     * Inflates the fragment, using the RecyclerView.
+     * Then starts the AsyncTask that will retrieve the Hike data from the web service.
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,6 +113,10 @@ public class HikeFragment extends Fragment {
     }
 
 
+    /**
+     * Standard onAttach for attaching to the Activity's context
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -97,6 +128,9 @@ public class HikeFragment extends Fragment {
         }
     }
 
+    /**
+     * Standard onDetach, kills the InteractionListener
+     */
     @Override
     public void onDetach() {
         super.onDetach();
@@ -114,12 +148,21 @@ public class HikeFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(Hike item);
+
+        void onListFragmentInteraction(Hike hike);
     }
 
+    /**
+     * A nested AsyncTask class that performs the actual business of connecting to the web service.
+     */
     private class DownloadHikesTask extends AsyncTask<String, Void, String> {
 
+        /**
+         * Uses the URL(s) for the webservice to check for service and connect to the Hike database
+         * @param urls the url(s) for the web service
+         * @return a String with a JSON message, if successful, or an error message if something
+         * went wrong.
+         */
         @Override
         protected String doInBackground(String... urls) {
 
@@ -148,6 +191,12 @@ public class HikeFragment extends Fragment {
             return response;
         }
 
+        /**
+         * Makes a toast if there was an error message to display it.
+         * Otherwise, calls the Hike class parseHikeJSON() method to fill the Hike list, and
+         * then passes that list with the HikeFragments mListener to the RecycleViewAdapter.
+         * @param result
+         */
         protected void onPostExecute(String result) {
             if (result.startsWith("Unable to")) {
                 Toast.makeText(getActivity().getApplicationContext(),

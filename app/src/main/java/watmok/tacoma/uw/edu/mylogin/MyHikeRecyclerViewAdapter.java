@@ -15,18 +15,31 @@ import java.util.List;
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Hike} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
+ *
  */
 public class MyHikeRecyclerViewAdapter extends RecyclerView.Adapter<MyHikeRecyclerViewAdapter.ViewHolder> {
 
     private final List<Hike> mValues;
     private final OnListFragmentInteractionListener mListener;
 
+    /**
+     * A constructior for the adapter
+     * @param items A list of Hikes to be displayed
+     * @param listener An interaction listener in case someone clicks on a Hike.
+     *                 Currently does nothing, but will be used in the future to display more info
+     *                 on a separate page/fragment.
+     */
     public MyHikeRecyclerViewAdapter(List<Hike> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
 
+    /**
+     * Creates the view holder class below that displays views of Hikes
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -34,6 +47,11 @@ public class MyHikeRecyclerViewAdapter extends RecyclerView.Adapter<MyHikeRecycl
         return new ViewHolder(view);
     }
 
+    /**
+     * To bind the view holder to the acual data from a hike, and its onClickListener
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
@@ -52,11 +70,19 @@ public class MyHikeRecyclerViewAdapter extends RecyclerView.Adapter<MyHikeRecycl
         });
     }
 
+    /**
+     * Returns the size of the Hike list
+     * @return
+     */
     @Override
     public int getItemCount() {
         return mValues.size();
     }
 
+    /**
+     * A nested class for creating the actual ViewHolder, extended from RecylerView.ViewHolder
+     * without any changes.
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
