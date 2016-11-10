@@ -11,12 +11,27 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
+/**
+ * When this Activity is called, the user has the ability to create a username and a password.
+ * The user must verify the password to proceed, and when done will direct you back to the Main
+ * Activity to login.
+ */
 public class SignUPActivity extends AppCompatActivity {
     EditText editTextUserName, editTextPassword, editTextConfirmPassword;
     Button btnCreateAccount;
     Context context = this;
     LoginDataBaseAdapter loginDataBaseAdapter;
 
+    /**
+     * The user is prompted to enter a username and password as well as verify the password.
+     * If the verfication and the actual password do not match, then there is a Toast that pops up
+     * saying that thed two passwords do not match. If the user accidentally clicks on the register
+     * button without typing in anything, then there is a Toast that pops up that says that the
+     * fields are vaccant. Otherwise it says that the user has successfully created an account and
+     * and takes them back to the Main Activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +79,9 @@ public class SignUPActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     *
+     */
     @Override
     protected void onDestroy() {
         // TODO Auto-generated method stub

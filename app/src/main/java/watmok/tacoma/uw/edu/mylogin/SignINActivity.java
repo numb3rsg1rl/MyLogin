@@ -11,13 +11,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
+/**
+ * This part of the Activity opens up the Login Page which will verify the user's credentials based
+ * on the username that they type in. If the passwords do not match, the application returns a toast
+ * saying that the passwords do not match. Otherwise it lets the user in the application.
+ */
 public class SignINActivity extends AppCompatActivity {
     EditText editTextUserName, editTextPassword;
     Button btnSignIn;
     Context context = this;
     LoginDataBaseAdapter loginDataBaseAdapter;
 
+    /**
+     * Sets up the Activity as well as takes in the input username and stores it as a String for
+     * later use. Then it takes the input of the password and tries to match it with the password
+     * stored in the database.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +72,9 @@ public class SignINActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     *
+     */
     @Override
     protected void onDestroy() {
         // TODO Auto-generated method stub
