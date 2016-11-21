@@ -78,7 +78,8 @@ public class Hike implements Serializable {
     /**
      * Getter for mShortDescription
      * @return an instance of mShortDescription
-     */public String getmShortDescription() {
+     */
+    public String getmShortDescription() {
         return mShortDescription;
     }
 
