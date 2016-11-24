@@ -45,14 +45,7 @@ public class HikeActivity extends AppCompatActivity implements HikeFragment.OnLi
                 finish();
             }
         });
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
+
     }
 
     /**
@@ -63,6 +56,7 @@ public class HikeActivity extends AppCompatActivity implements HikeFragment.OnLi
      */
     @Override
     public void onListFragmentInteraction(Hike item) {
-
+        Intent i = new Intent(HikeActivity.this, HikeDetailActivity.class);
+        startActivity(i);
     }
 }
