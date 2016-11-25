@@ -1,11 +1,14 @@
 package watmok.tacoma.uw.edu.mylogin.hike;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * A class that parses and stores instances of Hikes to be displayed,
@@ -19,16 +22,46 @@ public class Hike implements Serializable {
      */
     private String mHikeName;
     private String mShortDescription;
+    private LatLng mCoordinates;
 
     /**
      * Identifiers for parsing the JSON string
      */
     public static final String HIKE_NAME = "Hike_Name";
     public static final String SHORT_DESCRIPTION = "Short_Description";
+    public static final String TRAIL_COORDINATES = "Trailhead_Coordinates";
 
+    /**
+     * Constructor for contrusting a hikes object with only the name and description.
+     * @param theHikeName
+     * @param theShortDescription
+     */
     public Hike(String theHikeName, String theShortDescription) {
         mHikeName = theHikeName;
         mShortDescription = theShortDescription;
+        mCoordinates = null;
+    }
+
+    /**
+     * Constructor for contrusting a hikes object with only the name and description,
+     * and the trailhead coordinates.
+     * @param theHikeName
+     * @param theShortDescription
+     * @param theCoordinates
+     */
+    public Hike(String theHikeName, String theShortDescription, String theCoordinates) {
+        mHikeName = theHikeName;
+        mShortDescription = theShortDescription;
+        Scanner scanner = new Scanner(theCoordinates);
+
+        // the following parsing code is based on the first answer on
+        // http://stackoverflow.com/questions/26285086/reading-a-string-int-and-double-from-csv-file
+        String nextLine = scanner.nextLine();
+        String[] array = nextLine.split(",");
+        double lat = Double.parseDouble(array[0]);
+        double lng = Double.parseDouble(array[1]);
+
+        mCoordinates = new LatLng(lat,lng);
     }
 
     /**
@@ -47,7 +80,13 @@ public class Hike implements Serializable {
                 JSONArray array = new JSONArray(hikeJSON);
                 for (int i = 0; i<array.length(); i++) {
                     JSONObject object = array.getJSONObject(i);
-                    Hike hike = new Hike(object.getString(Hike.HIKE_NAME),object.getString(Hike.SHORT_DESCRIPTION));
+                    Hike hike;
+                    if (object.has(TRAIL_COORDINATES)) {
+                        hike = new Hike(object.getString(HIKE_NAME), object.getString(SHORT_DESCRIPTION),
+                                object.getString(TRAIL_COORDINATES));
+                    } else {
+                        hike = new Hike(object.getString(HIKE_NAME), object.getString(SHORT_DESCRIPTION));
+                    }
                     hikeList.add(hike);
                 }
             } catch (JSONException e) {
@@ -89,5 +128,13 @@ public class Hike implements Serializable {
      */
     public void setmShortDescription(String mShortDescription) {
         this.mShortDescription = mShortDescription;
+    }
+
+    /**
+     * Getter for mCoordinate
+     * @return a reference to mCoordinates
+     */
+    public LatLng getmCoordinates() {
+        return mCoordinates;
     }
 }
