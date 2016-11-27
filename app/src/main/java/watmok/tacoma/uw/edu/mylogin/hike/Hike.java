@@ -1,5 +1,7 @@
 package watmok.tacoma.uw.edu.mylogin.hike;
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -50,6 +52,7 @@ public class Hike implements Serializable {
      * @param theCoordinates
      */
     public Hike(String theHikeName, String theShortDescription, String theCoordinates) {
+
         mHikeName = theHikeName;
         mShortDescription = theShortDescription;
         Scanner scanner = new Scanner(theCoordinates);
@@ -57,6 +60,7 @@ public class Hike implements Serializable {
         // the following parsing code is based on the first answer on
         // http://stackoverflow.com/questions/26285086/reading-a-string-int-and-double-from-csv-file
         String nextLine = scanner.nextLine();
+        Log.d("JSON of hike","String of the coordinates = " + theCoordinates);
         String[] array = nextLine.split(",");
         double lat = Double.parseDouble(array[0]);
         double lng = Double.parseDouble(array[1]);

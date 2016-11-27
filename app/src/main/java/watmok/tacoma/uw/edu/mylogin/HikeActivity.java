@@ -56,7 +56,7 @@ public class HikeActivity extends AppCompatActivity implements HikeFragment.OnLi
      */
     @Override
     public void onListFragmentInteraction(Hike item) {
-        Intent i = new Intent(HikeActivity.this, HikeDetailActivity.class);
+        Intent i = new Intent(HikeActivity.this, TrailMapActivity.class);
         startActivity(i);
     }
 }

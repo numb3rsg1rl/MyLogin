@@ -3,6 +3,7 @@ package watmok.tacoma.uw.edu.mylogin;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,7 +40,7 @@ public class TrailMapActivity extends FragmentActivity implements OnMapReadyCall
         // fill the Hike List from the mysql server
 
         DownloadHikesTask task = new DownloadHikesTask();
-        task.execute(new String[]{HIKES_URL});
+        task.execute(HIKES_URL);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -61,10 +62,16 @@ public class TrailMapActivity extends FragmentActivity implements OnMapReadyCall
         mMap = googleMap;
 
         // Add a marker for each hike
-        for (Hike hike : mHikeList) {
+        if (mHikeList != null && !mHikeList.isEmpty()) {
+            for (Hike hike : mHikeList) {
 
-            mMap.addMarker(new MarkerOptions().position(hike.getmCoordinates())
-                    .title(hike.getmHikeName()).snippet(hike.getmShortDescription()));        }
+                mMap.addMarker(new MarkerOptions().position(hike.getmCoordinates())
+                        .title(hike.getmHikeName()).snippet(hike.getmShortDescription()));
+            }
+        } else {
+            Log.e("null", "Unable to generate markers. mHikeList is null or empty");
+        }
+
         // Add a marker in Sydney and move the camera
         /*LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
