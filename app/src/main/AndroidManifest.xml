@@ -45,7 +45,7 @@
         <activity
             android:name=".HikeActivity"
             android:label="@string/title_activity_hike"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -56,11 +56,12 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyBLCDz502VmnpDr4HbvFZC3H74zJVVfoIM" />
 
         <activity
             android:name=".TrailMapActivity"
-            android:label="@string/title_activity_trail_map"></activity>
+            android:label="@string/title_activity_trail_map" />
+        <activity android:name=".HikeDetailActivity"></activity>
     </application>
 
 </manifest>

@@ -107,7 +107,7 @@ public class HikeFragment extends Fragment {
                 mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
             DownloadHikesTask task = new DownloadHikesTask();
-            task.execute(new String[]{HIKES_URL});
+            task.execute(HIKES_URL);
         }
         return view;
     }
