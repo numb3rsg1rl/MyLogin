@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -28,6 +30,10 @@ public class HikeActivity extends AppCompatActivity implements HikeFragment.OnLi
 
         setContentView(R.layout.activity_hike);
 
+        //instantiate the Toolbar
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
 
         if (savedInstanceState == null
             && getSupportFragmentManager().findFragmentById(R.id.list) == null) {
@@ -35,16 +41,7 @@ public class HikeActivity extends AppCompatActivity implements HikeFragment.OnLi
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, hikeFragment).commit();
         }
 
-        Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(HikeActivity.this,
-                        MainActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
+
 
     }
 
@@ -56,7 +53,29 @@ public class HikeActivity extends AppCompatActivity implements HikeFragment.OnLi
      */
     @Override
     public void onListFragmentInteraction(Hike item) {
-        Intent i = new Intent(HikeActivity.this, TrailMapActivity.class);
+        Intent i = new Intent(HikeActivity.this, HikeDetailActivity.class);
         startActivity(i);
+    }
+
+    /**
+     * provides functionality for menu items
+     * @param item the menu item that has been selected
+     * @return always true
+     */
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item) {
+        if (item.getItemId() == R.id.back_item) {
+            Intent i = new Intent(HikeActivity.this,
+                    MainMenuActivity.class);
+            startActivity(i);
+            finish();
+        } else if (item.getItemId() == R.id.logout_item) {
+            Intent i = new Intent(HikeActivity.this,
+                    MainActivity.class);
+            startActivity(i);
+            finish();
+        }
+
+        return true;
     }
 }
