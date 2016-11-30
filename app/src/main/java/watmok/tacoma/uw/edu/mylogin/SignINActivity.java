@@ -63,7 +63,7 @@ public class SignINActivity extends AppCompatActivity {
                             "Account Successfully Confirmed ", Toast.LENGTH_LONG)
                             .show();
                     Intent i = new Intent(SignINActivity.this,
-                            HikeActivity.class);
+                            MainMenuActivity.class);
                     startActivity(i);
                     finish();
 
