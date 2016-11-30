@@ -1,6 +1,7 @@
 package watmok.tacoma.uw.edu.mylogin;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -9,7 +10,10 @@ import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -31,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 
 import watmok.tacoma.uw.edu.mylogin.hike.Hike;
 
-public class TrailMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
 
     private GoogleMap mMap;
@@ -39,11 +43,16 @@ public class TrailMapActivity extends FragmentActivity implements OnMapReadyCall
     private static final String HIKES_URL = "http://cssgate.insttech.washington.edu/~debergma/hikes.php?cmd=hikes1";
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_trail_map);
+
+        //instantiate the Toolbar
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
 
         // fill the Hike List from the mysql server
 
@@ -56,6 +65,29 @@ public class TrailMapActivity extends FragmentActivity implements OnMapReadyCall
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+
+    /**
+     * provides functionality for menu items
+     * @param item the menu item that has been selected
+     * @return always true
+     */
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item) {
+        if (item.getItemId() == R.id.back_item) {
+            Intent i = new Intent(TrailMapActivity.this,
+                    MainMenuActivity.class);
+            startActivity(i);
+            finish();
+        } else if (item.getItemId() == R.id.logout_item) {
+            Intent i = new Intent(TrailMapActivity.this,
+                    MainActivity.class);
+            startActivity(i);
+            finish();
+        }
+
+        return true;
     }
 
     /**
