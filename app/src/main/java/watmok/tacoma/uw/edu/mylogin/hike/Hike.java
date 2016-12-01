@@ -19,6 +19,18 @@ import java.util.Scanner;
 
 public class Hike implements Serializable {
 
+    public static String getHikeName() {
+        return HIKE_NAME;
+    }
+
+    public static String getShortDescription() {
+        return SHORT_DESCRIPTION;
+    }
+
+    public static String getTrailCoordinates() {
+        return TRAIL_COORDINATES;
+    }
+
     /**
      * Strings for a name of the Hike, and a short description of it.
      */

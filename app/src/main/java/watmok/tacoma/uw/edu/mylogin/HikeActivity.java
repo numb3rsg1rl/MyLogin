@@ -59,14 +59,17 @@ public class HikeActivity extends AppCompatActivity implements HikeFragment.OnLi
 
     /**
      * What happens when you click on a Hike item from the list.
-     * Currently does nothing. Content will be added to this method at a later point, upon the
-     * creation of a HikeDetail fragment.
+     * Gets the name of the hike, and passes it through the intent
+     * to create a HikeDetail fragment of that Hike.
      * @param item
      */
     @Override
     public void onListFragmentInteraction(Hike item) {
-        Intent i = new Intent(HikeActivity.this, HikeDetailActivity.class);
-        startActivity(i);
+        String trailName = Hike.getHikeName();
+        Intent intent = new Intent(HikeActivity.this, HikeDetailActivity.class);
+        intent.putExtra("PREVIOUS_ACTIVITY","Hike_List");
+        intent.putExtra("TRAIL_NAME",trailName);
+        startActivity(intent);
     }
 
     /**
