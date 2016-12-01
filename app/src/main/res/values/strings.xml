@@ -3,6 +3,10 @@
     <string name="title_activity_hike">HikeActivity</string>
     <string name="title_activity_trail_map">Map</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Hello Blank Fragment</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="loading">Loading</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="signed_in_fmt">Signed in as %1$s</string>
+    <string name="signed_out">You are signed out.</string>
 </resources>
