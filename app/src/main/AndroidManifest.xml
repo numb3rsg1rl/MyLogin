@@ -33,6 +33,7 @@
 
     <uses-permission android:name="watmok.tacoma.uw.edu.mylogin.permission.C2D_MESSAGE" />
 
+    <!--suppress AndroidDomInspection -->
     <application
         android:name="com.android.tools.fd.runtime.BootstrapApplication"
         android:allowBackup="true"
