@@ -64,7 +64,7 @@ public class HikeDetailActivity extends AppCompatActivity {
         return true;
     }
 
-    
+
     /**
      * Inflates the menu Layout onto the toolbar
      * @param menu - the menu that needs a layout, in this case the Toolbar from onCreate()
