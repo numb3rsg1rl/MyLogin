@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -43,6 +44,17 @@ public class HikeActivity extends AppCompatActivity implements HikeFragment.OnLi
 
 
 
+    }
+
+    /**
+     * Inflates the menu Layout onto the toolbar
+     * @param menu - the menu that needs a layout, in this case the Toolbar from onCreate()
+     * @return returns true
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
     }
 
     /**

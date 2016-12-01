@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.BufferedReader;
@@ -33,16 +35,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import de.cketti.mailto.EmailIntentBuilder;
 import watmok.tacoma.uw.edu.mylogin.hike.Hike;
 
-public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleMap.OnInfoWindowClickListener {
 
 
     private GoogleMap mMap;
     private List<Hike> mHikeList;
     private static final String HIKES_URL = "http://cssgate.insttech.washington.edu/~debergma/hikes.php?cmd=hikes1";
-
-
+    private static final int MY_PERMISSIONS_LOCATIONS = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,17 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     /**
+     * Inflates the menu Layout onto the toolbar
+     * @param menu - the menu that needs a layout, in this case the Toolbar from onCreate()
+     * @return returns true
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
+    }
+
+    /**
      * Waits up to 2 seconds for the DownloadHikesTask to load data into mHikeList;
      */
     private void waitForHikeTask() {
@@ -123,7 +136,10 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
                 != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            return;
+            ActivityCompat.requestPermissions(this,new String[]{
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION},MY_PERMISSIONS_LOCATIONS);
+
         }
         mMap.setMyLocationEnabled(true);
         Location currentLocation = getMyLocation();
@@ -190,6 +206,21 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     /**
+     *
+     * @param marker
+     */
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        String trailName = marker.getTitle();
+        Intent intent = new Intent(TrailMapActivity.this, HikeDetailActivity.class);
+        intent.putExtra("PREVIOUS_ACTIVITY","Map");
+        intent.putExtra("TRAIL_NAME",trailName);
+        startActivity(intent);
+
+    }
+
+
+    /**
      * A nested AsyncTask class that performs the actual business of connecting to the web service.
      */
     private class DownloadHikesTask extends AsyncTask<String, Void, String> {
@@ -241,7 +272,7 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
                 return;
             }
             mHikeList = new ArrayList<>();
-            result = Hike.parseHikeJSON(result,mHikeList);
+            result = Hike.parseHikeJSON(result,mHikeList,true);
             if (result != null) {
                 Toast.makeText(getApplicationContext(),
                         result,Toast.LENGTH_LONG).show();

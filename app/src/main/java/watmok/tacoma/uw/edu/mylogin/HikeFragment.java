@@ -204,7 +204,7 @@ public class HikeFragment extends Fragment {
                 return;
             }
             List<Hike> hikeList = new ArrayList<>();
-            result = Hike.parseHikeJSON(result,hikeList);
+            result = Hike.parseHikeJSON(result,hikeList, false);
             if (result != null) {
                 Toast.makeText(getActivity().getApplicationContext(),
                         result,Toast.LENGTH_LONG).show();
