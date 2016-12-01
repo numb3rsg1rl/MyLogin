@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyLogin</string>
+    <string name="app_name">Trail Blazer</string>
     <string name="title_activity_hike">HikeActivity</string>
     <string name="title_activity_trail_map">Map</string>
 
