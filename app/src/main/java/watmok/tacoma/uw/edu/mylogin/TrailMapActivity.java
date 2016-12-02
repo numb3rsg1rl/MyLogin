@@ -185,7 +185,9 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
                 != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            return null;
+            ActivityCompat.requestPermissions(this,new String[]{
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION},MY_PERMISSIONS_LOCATIONS);
         }
 
         // Get location from GPS if it's available

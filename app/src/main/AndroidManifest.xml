@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="watmok.tacoma.uw.edu.mylogin"
-    android:versionCode="1"
-    android:versionName="1.0">
-
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="19" />
+    >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -67,15 +62,8 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".HikeDetailActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".MainMenuActivity"></activity>
-            android:label="@string/title_activity_trail_map"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".HikeDetailActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".MainMenuActivity"></activity>
-            android:name="watmok.tacoma.uw.edu.mylogin.TrailMapActivity"
-            android:label="@string/title_activity_trail_map" />
-        <activity android:name="watmok.tacoma.uw.edu.mylogin.HikeDetailActivity" />
+        <activity android:name=".MainMenuActivity"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
