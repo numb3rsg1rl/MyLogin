@@ -44,7 +44,7 @@ public class HikeDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hike_detail);
         Intent intent = getIntent();
-        if (intent.getStringExtra("PREVIOUS_ACTIVITY").equals("map")) {
+        if (intent.getStringExtra("PREVIOUS_ACTIVITY").equals("map")){
             setUpFromMap(intent.getStringExtra("TRAIL_NAME"));
         } else {
             setUpFromList(intent.getStringExtra("TRAIL_NAME"));
@@ -68,10 +68,10 @@ public class HikeDetailActivity extends AppCompatActivity {
         DownloadHikesTask task = new DownloadHikesTask();
         task.execute(HIKES_URL);
 
-        waitForHikeTask();
+        /*waitForHikeTask();
 
         DownloadPicturesTask task1 = new DownloadPicturesTask();
-        task1.execute(HIKES_URL2);
+        task1.execute(HIKES_URL2);*/
 
     }
 
@@ -82,7 +82,7 @@ public class HikeDetailActivity extends AppCompatActivity {
     /**
      * Sets up the activity with parameters from the map
      */
-    protected void setUpFromMap(String hikeName) {
+    protected void setUpFromMap (String hikeName){
         lastActivity = "Map";
         myHikeName = hikeName;
     }
@@ -106,12 +106,11 @@ public class HikeDetailActivity extends AppCompatActivity {
 
     /**
      * provides functionality for menu items
-     *
      * @param item the menu item that has been selected
      * @return always true
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected (MenuItem item) {
         if (item.getItemId() == R.id.back_item) {
             Intent i;
             if (lastActivity.equals("map")) {
@@ -142,13 +141,12 @@ public class HikeDetailActivity extends AppCompatActivity {
 
     /**
      * Inflates the menu Layout onto the toolbar
-     *
      * @param menu - the menu that needs a layout, in this case the Toolbar from onCreate()
      * @return returns true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
 
@@ -192,10 +190,9 @@ public class HikeDetailActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.hike_name);
         title.setText(myHikeName);
 
-        /**
-        ImageView picture = (ImageView) findViewById(R.id.imageView);
-        picture.setImageBitmap(mHike.getmPicture());
-        */
+        /*ImageView picture = (ImageView) findViewById(R.id.imageView);
+        picture.setImageBitmap(mHike.getmPicture());*/
+
         TextView length = (TextView) findViewById(R.id.trail_length);
         length.setText(getTrailLengthText(mHike.getmLength()));
 
