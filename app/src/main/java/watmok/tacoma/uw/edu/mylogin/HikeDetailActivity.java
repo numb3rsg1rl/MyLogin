@@ -7,11 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -39,7 +36,7 @@ public class HikeDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hike_detail);
         Intent intent = getIntent();
-        if (intent.getStringExtra("PREVIOUS_ACTIVITY").equals("map")) {
+        if (intent.getStringExtra("PREVIOUS_ACTIVITY").equals("map")){
             setUpFromMap(intent.getStringExtra("TRAIL_NAME"));
         }
         //instantiate the Toolbar
@@ -49,29 +46,28 @@ public class HikeDetailActivity extends AppCompatActivity {
         DownloadHikesTask task = new DownloadHikesTask();
         task.execute(HIKES_URL);
 
-        waitForHikeTask();
+        /*waitForHikeTask();
 
         DownloadPicturesTask task1 = new DownloadPicturesTask();
-        task1.execute(HIKES_URL2);
+        task1.execute(HIKES_URL2);*/
 
     }
 
     /**
      * Sets up the activity with parameters from the map
      */
-    protected void setUpFromMap(String hikeName) {
+    protected void setUpFromMap (String hikeName){
         lastActivity = "Map";
         myHikeName = hikeName;
     }
 
     /**
      * provides functionality for menu items
-     *
      * @param item the menu item that has been selected
      * @return always true
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected (MenuItem item) {
         if (item.getItemId() == R.id.back_item) {
             Intent i;
             if (lastActivity.equals("map")) {
@@ -111,13 +107,12 @@ public class HikeDetailActivity extends AppCompatActivity {
 
     /**
      * Inflates the menu Layout onto the toolbar
-     *
      * @param menu - the menu that needs a layout, in this case the Toolbar from onCreate()
      * @return returns true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
 
@@ -161,8 +156,8 @@ public class HikeDetailActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.hike_name);
         title.setText(myHikeName);
 
-        ImageView picture = (ImageView) findViewById(R.id.imageView);
-        picture.setImageBitmap(mHike.getmPicture());
+        /*ImageView picture = (ImageView) findViewById(R.id.imageView);
+        picture.setImageBitmap(mHike.getmPicture());*/
 
         TextView length = (TextView) findViewById(R.id.trail_length);
         length.setText(getTrailLengthText(mHike.getmLength()));
@@ -241,6 +236,13 @@ public class HikeDetailActivity extends AppCompatActivity {
                         result, Toast.LENGTH_LONG).show();
                 return;
             }
+            for (Hike hike: mhikeList) {
+                if (hike.getmHikeName().equals(myHikeName)) {
+                    mHike = hike;
+                }
+            }
+
+            displayHike();
 
 
         }
@@ -307,13 +309,6 @@ public class HikeDetailActivity extends AppCompatActivity {
                         result, Toast.LENGTH_LONG).show();
                 return;
             }
-            for (Hike hike: mhikeList) {
-                if (hike.getmHikeName().equals(myHikeName)) {
-                    mHike = hike;
-                }
-            }
-
-            displayHike();
 
 
         }
