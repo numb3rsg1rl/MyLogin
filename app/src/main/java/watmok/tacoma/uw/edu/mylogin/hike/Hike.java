@@ -19,6 +19,18 @@ import java.util.Scanner;
 
 public class Hike implements Serializable {
 
+    public static String getHikeName() {
+        return HIKE_NAME;
+    }
+
+    public static String getShortDescription() {
+        return SHORT_DESCRIPTION;
+    }
+
+    public static String getTrailCoordinates() {
+        return TRAIL_COORDINATES;
+    }
+
     /**
      * Strings for a name of the Hike, and a short description of it.
      */
@@ -38,20 +50,20 @@ public class Hike implements Serializable {
      * @param theHikeName
      * @param theShortDescription
      */
-    public Hike(String theHikeName, String theShortDescription) {
+    private Hike(String theHikeName, String theShortDescription) {
         mHikeName = theHikeName;
         mShortDescription = theShortDescription;
         mCoordinates = null;
     }
 
     /**
-     * Constructor for contrusting a hikes object with only the name and description,
+     * Constructor for contructing a hikes object with only the name and description,
      * and the trailhead coordinates.
      * @param theHikeName
      * @param theShortDescription
      * @param theCoordinates
      */
-    public Hike(String theHikeName, String theShortDescription, String theCoordinates) {
+    private Hike(String theHikeName, String theShortDescription, String theCoordinates) {
 
         mHikeName = theHikeName;
         mShortDescription = theShortDescription;
@@ -73,9 +85,10 @@ public class Hike implements Serializable {
      * @author Daniel Bergman
      * @param hikeJSON The JSON string
      * @param hikeList The list of Hike objects
+     * @param getUnsavedHikes
      * @return Returns String reason, an error message if something went wrong.
      */
-    public static String parseHikeJSON (String hikeJSON, List<Hike> hikeList) {
+    public static String parseHikeJSON(String hikeJSON, List<Hike> hikeList, boolean getUnsavedHikes) {
         String reason = null;
 
         if (hikeJSON != null) {
@@ -91,6 +104,8 @@ public class Hike implements Serializable {
                     } else {
                         hike = new Hike(object.getString(HIKE_NAME), object.getString(SHORT_DESCRIPTION));
                     }
+                    //TODO: If getUnsavesHikes is false, only add saved hikes from SQLite
+
                     hikeList.add(hike);
                 }
             } catch (JSONException e) {

@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -28,6 +31,10 @@ public class HikeActivity extends AppCompatActivity implements HikeFragment.OnLi
 
         setContentView(R.layout.activity_hike);
 
+        //instantiate the Toolbar
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
 
         if (savedInstanceState == null
             && getSupportFragmentManager().findFragmentById(R.id.list) == null) {
@@ -35,28 +42,55 @@ public class HikeActivity extends AppCompatActivity implements HikeFragment.OnLi
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, hikeFragment).commit();
         }
 
-        Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(HikeActivity.this,
-                        MainActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
+
 
     }
 
     /**
+     * Inflates the menu Layout onto the toolbar
+     * @param menu - the menu that needs a layout, in this case the Toolbar from onCreate()
+     * @return returns true
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
+    }
+
+    /**
      * What happens when you click on a Hike item from the list.
-     * Currently does nothing. Content will be added to this method at a later point, upon the
-     * creation of a HikeDetail fragment.
+     * Gets the name of the hike, and passes it through the intent
+     * to create a HikeDetail fragment of that Hike.
      * @param item
      */
     @Override
     public void onListFragmentInteraction(Hike item) {
-        Intent i = new Intent(HikeActivity.this, TrailMapActivity.class);
-        startActivity(i);
+        String trailName = Hike.getHikeName();
+        Intent intent = new Intent(HikeActivity.this, HikeDetailActivity.class);
+        intent.putExtra("PREVIOUS_ACTIVITY","Hike_List");
+        intent.putExtra("TRAIL_NAME",trailName);
+        startActivity(intent);
+    }
+
+    /**
+     * provides functionality for menu items
+     * @param item the menu item that has been selected
+     * @return always true
+     */
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item) {
+        if (item.getItemId() == R.id.back_item) {
+            Intent i = new Intent(HikeActivity.this,
+                    MainMenuActivity.class);
+            startActivity(i);
+            finish();
+        } else if (item.getItemId() == R.id.logout_item) {
+            Intent i = new Intent(HikeActivity.this,
+                    MainActivity.class);
+            startActivity(i);
+            finish();
+        }
+
+        return true;
     }
 }

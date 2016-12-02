@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="watmok.tacoma.uw.edu.mylogin"
-    android:versionCode="1"
-    android:versionName="1.0" >
-
-    <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="24" />
+    >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -16,33 +11,20 @@
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality.
+         location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Optional permission for Analytics to run. -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- Permissions required for GCM -->
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true" />
-
-    <permission
-        android:name="watmok.tacoma.uw.edu.mylogin.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-
-    <uses-permission android:name="watmok.tacoma.uw.edu.mylogin.permission.C2D_MESSAGE" />
-
-    <!--suppress AndroidDomInspection -->
     <application
-        android:name="com.android.tools.fd.runtime.BootstrapApplication"
+        android:icon="@android:drawable/ic_dialog_map"
         android:allowBackup="true"
-        android:label="@string/app_name" android:icon="@mipmap/ic_launcher"
-        android:theme="@style/AppTheme" >
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
         <activity
-            android:name="watmok.tacoma.uw.edu.mylogin.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,33 +32,38 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="watmok.tacoma.uw.edu.mylogin.SignINActivity"
+            android:name=".SignINActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="watmok.tacoma.uw.edu.mylogin.SignUPActivity"
+            android:name=".SignUPActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="watmok.tacoma.uw.edu.mylogin.HikeActivity"
+            android:name=".HikeActivity"
             android:label="@string/title_activity_hike"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
              Note that the API key is linked to the encryption key used to sign the APK.
              You need a different API key for each encryption key, including the release key that is used to
              sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBLCDz502VmnpDr4HbvFZC3H74zJVVfoIM" />
 
         <activity
-            android:name="watmok.tacoma.uw.edu.mylogin.TrailMapActivity"
-            android:label="@string/title_activity_trail_map" />
-        <activity android:name="watmok.tacoma.uw.edu.mylogin.HikeDetailActivity" />
+            android:name=".TrailMapActivity"
+            android:label="@string/title_activity_trail_map"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".HikeDetailActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".MainMenuActivity"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
