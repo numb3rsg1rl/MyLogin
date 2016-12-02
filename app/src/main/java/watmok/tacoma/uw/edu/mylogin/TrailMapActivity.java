@@ -119,7 +119,6 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
         }
     }
 
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
