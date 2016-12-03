@@ -17,6 +17,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -45,7 +50,7 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
     private List<Hike> mHikeList;
     private static final String HIKES_URL = "http://cssgate.insttech.washington.edu/~debergma/hikes.php?cmd=hikes1";
     private static final int MY_PERMISSIONS_LOCATIONS = 0;
-
+    private GoogleApiClient mGoogleApiClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,10 +88,20 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
             startActivity(i);
             finish();
         } else if (item.getItemId() == R.id.logout_item) {
-            Intent i = new Intent(TrailMapActivity.this,
-                    MainActivity.class);
-            startActivity(i);
-            finish();
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(Status status) {
+                            // ...
+                            Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
+                            Intent i=new Intent(getApplicationContext(),MainActivity.class);
+                            startActivity(i);
+                        }
+                   });
+//            Intent i = new Intent(TrailMapActivity.this,
+//                    MainActivity.class);
+//            startActivity(i);
+//            finish();
         }
 
         return true;
@@ -117,6 +132,17 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
             }
 
         }
+    }
+    @Override
+    protected void onStart() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        mGoogleApiClient.connect();
+        super.onStart();
     }
 
     /**

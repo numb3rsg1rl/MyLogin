@@ -9,6 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 
 import watmok.tacoma.uw.edu.mylogin.hike.Hike;
 
@@ -20,7 +27,7 @@ import watmok.tacoma.uw.edu.mylogin.hike.Hike;
  * be adding detail fragments later, at which point we will be adding content to that method.
  */
 public class HikeActivity extends AppCompatActivity implements HikeFragment.OnListFragmentInteractionListener {
-
+    private GoogleApiClient mGoogleApiClient;
     /**
      * Creates the activity, and instantiates the HikeFragment inside. Also creates the logout button.
      * @param savedInstanceState
@@ -72,6 +79,18 @@ public class HikeActivity extends AppCompatActivity implements HikeFragment.OnLi
         startActivity(intent);
     }
 
+    @Override
+    protected void onStart() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
     /**
      * provides functionality for menu items
      * @param item the menu item that has been selected
@@ -85,10 +104,16 @@ public class HikeActivity extends AppCompatActivity implements HikeFragment.OnLi
             startActivity(i);
             finish();
         } else if (item.getItemId() == R.id.logout_item) {
-            Intent i = new Intent(HikeActivity.this,
-                    MainActivity.class);
-            startActivity(i);
-            finish();
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(Status status) {
+                            // ...
+                            Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
+                            Intent i=new Intent(getApplicationContext(),MainActivity.class);
+                            startActivity(i);
+                        }
+                    });
         }
 
         return true;

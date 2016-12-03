@@ -16,16 +16,7 @@
         android:id="@+id/sign_in_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/sign_out_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/sign_out"/>
-    <Button
-        android:id="@+id/disconnect_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/disconnect"/>
+
     <TextView
         android:id="@+id/status"
         android:layout_width="match_parent"
