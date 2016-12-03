@@ -112,6 +112,7 @@ public class HikeActivity extends AppCompatActivity implements HikeFragment.OnLi
                             Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
                             Intent i=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(i);
+                            finish();
                         }
                     });
         }

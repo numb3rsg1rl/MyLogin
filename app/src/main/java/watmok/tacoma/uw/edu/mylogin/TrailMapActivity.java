@@ -96,12 +96,9 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
                             Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
                             Intent i=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(i);
+                            finish();
                         }
                    });
-//            Intent i = new Intent(TrailMapActivity.this,
-//                    MainActivity.class);
-//            startActivity(i);
-//            finish();
         }
 
         return true;
@@ -279,7 +276,9 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
                     response = builder.toString();
 
                 } catch (Exception e) {
-                    response = "Unable to download the Hike list. Reason: " + e.getMessage();
+                    String message=e.getMessage();
+                    response = "Unable to download the Hike list. Reason: " + message;
+                    //Log.e("e",message);
                 }
             }
 

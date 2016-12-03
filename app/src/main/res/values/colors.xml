@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="Brown">#873600</color>
+    <color name="Parchment">#FDEBD0</color><!--Background-->
+    <color name="Burgundy">#A93226</color><!--When button is Visible/ TitleBar -->
+    <color name="Brick">#CB4335</color><!--When button is pressed-->
 </resources>

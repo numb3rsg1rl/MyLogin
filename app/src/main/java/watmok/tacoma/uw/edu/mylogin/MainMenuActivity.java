@@ -51,6 +51,7 @@ public class MainMenuActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
                                 Intent i=new Intent(getApplicationContext(),MainActivity.class);
                                 startActivity(i);
+                                finish();
                             }
                         });
             }
