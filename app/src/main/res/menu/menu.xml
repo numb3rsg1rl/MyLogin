@@ -5,6 +5,7 @@
         android:id="@+id/back_item"
         android:title="Back"
         android:orderInCategory="100"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:showAsAction = "ifRoom">
     </item>
     <item
