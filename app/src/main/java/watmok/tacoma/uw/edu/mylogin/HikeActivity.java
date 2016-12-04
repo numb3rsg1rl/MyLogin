@@ -72,7 +72,7 @@ public class HikeActivity extends AppCompatActivity implements HikeFragment.OnLi
      */
     @Override
     public void onListFragmentInteraction(Hike item) {
-        String trailName = Hike.getHikeName();
+        String trailName = item.getmHikeName();
         Intent intent = new Intent(HikeActivity.this, HikeDetailActivity.class);
         intent.putExtra("PREVIOUS_ACTIVITY","Hike_List");
         intent.putExtra("TRAIL_NAME",trailName);

@@ -21,7 +21,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -41,7 +40,8 @@ import java.util.concurrent.TimeUnit;
 
 import watmok.tacoma.uw.edu.mylogin.hike.Hike;
 
-public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleMap.OnInfoWindowClickListener {
+public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCallback,
+        GoogleMap.OnInfoWindowClickListener, GoogleMap.OnInfoWindowLongClickListener {
 
 
     private GoogleMap mMap;
@@ -161,6 +161,10 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
                     android.Manifest.permission.ACCESS_FINE_LOCATION},MY_PERMISSIONS_LOCATIONS);
 
         }
+
+        mMap.setOnInfoWindowClickListener(this);
+        mMap.setOnInfoWindowLongClickListener(this);
+
         mMap.setMyLocationEnabled(true);
         Location currentLocation = getMyLocation();
 
@@ -239,6 +243,15 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
         intent.putExtra("TRAIL_NAME",trailName);
         startActivity(intent);
 
+    }
+
+    @Override
+    public void onInfoWindowLongClick(Marker marker) {
+        String trailName = marker.getTitle();
+        Intent intent = new Intent(TrailMapActivity.this, HikeDetailActivity.class);
+        intent.putExtra("PREVIOUS_ACTIVITY","Map");
+        intent.putExtra("TRAIL_NAME",trailName);
+        startActivity(intent);
     }
 
 
