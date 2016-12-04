@@ -6,5 +6,5 @@
     <color name="Brown">#873600</color>
     <color name="Parchment">#FDEBD0</color><!--Background-->
     <color name="Burgundy">#A93226</color><!--When button is Visible/ TitleBar -->
-    <color name="Brick">#CB4335</color><!--When button is pressed-->
+    <color name="Brick">#cb4335</color><!--When button is pressed-->
 </resources>

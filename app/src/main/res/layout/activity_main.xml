@@ -11,17 +11,22 @@
     android:gravity="center_vertical"
     android:orientation="vertical"
     tools:context="watmok.tacoma.uw.edu.mylogin.MainActivity"
-    tools:theme="@style/AppTheme">
+    tools:theme="@style/AppTheme"
+    android:theme="@style/AppTheme">
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="@color/Brick" />
 
     <TextView
         android:id="@+id/status"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textStyle="normal|italic"
+        android:textSize="@dimen/cast_libraries_material_featurehighlight_text_body_size"
+        android:textAllCaps="false" />
 
 </LinearLayout>
 
