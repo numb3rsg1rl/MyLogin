@@ -152,8 +152,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if (signedIn) {
             Intent signIn = new Intent(getApplicationContext(), MainMenuActivity.class);
             startActivity(signIn);
+            //finish();
         } else {
             mStatusTextView.setText(R.string.signed_out);
+            //finish();
         }
     }
     @Override
