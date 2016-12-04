@@ -10,7 +10,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="watmok.tacoma.uw.edu.mylogin.HikeDetailActivity">
+    tools:context="watmok.tacoma.uw.edu.mylogin.HikeDetailActivity"
+    android:theme="@style/AppTheme">
 
     <TextView
         android:layout_width="match_parent"
@@ -27,7 +28,8 @@
         android:text="View trail on map"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/map_button" />
+        android:id="@+id/map_button"
+        android:background="@color/Brick" />
 
     <TextView
         android:layout_width="match_parent"

@@ -10,7 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    tools:context="watmok.tacoma.uw.edu.mylogin.MainActivity">
+    tools:context="watmok.tacoma.uw.edu.mylogin.MainActivity"
+    tools:theme="@style/AppTheme">
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
