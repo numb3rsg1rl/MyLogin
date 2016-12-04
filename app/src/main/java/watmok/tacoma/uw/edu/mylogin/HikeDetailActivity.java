@@ -79,6 +79,7 @@ public class HikeDetailActivity extends AppCompatActivity {
         lastActivity = "List";
         myHikeName = trail_name;
     }
+
     /**
      * Sets up the activity with parameters from the map
      */
@@ -110,7 +111,7 @@ public class HikeDetailActivity extends AppCompatActivity {
      * @return always true
      */
     @Override
-    public boolean onOptionsItemSelected (MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.back_item) {
             Intent i;
             if (lastActivity.equals("map")) {
