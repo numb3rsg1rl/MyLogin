@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -152,6 +155,33 @@ public class HikeDetailActivity extends AppCompatActivity {
     }
 
     /**
+     * Takes the saved values from mHike and put them into the layout.
+     */
+    private void displayHike() {
+        TextView title = (TextView) findViewById(R.id.hike_name);
+        title.setText(myHikeName);
+
+        ImageView picture = (ImageView) findViewById(R.id.imageView);
+        picture.setImageBitmap(mHike.getmPicture());
+
+        TextView length = (TextView) findViewById(R.id.trail_length);
+        length.setText(getTrailLengthText(mHike.getmLength()));
+
+        TextView maxElevation = (TextView) findViewById(R.id.elevation);
+        maxElevation.setText(getMaxElevationText(mHike.getmMaxElevation()));
+
+        TextView elevationGain = (TextView) findViewById(R.id.elevation_gain);
+        elevationGain.setText(getElevationGainText(mHike.getmElevationGain()));
+
+        TextView description = (TextView) findViewById(R.id.description);
+        description.setText(mHike.getmLongDescription());
+
+        TextView reviews = (TextView) findViewById(R.id.reviews);
+        reviews.setText(mHike.getmReviews());
+
+    }
+
+    /**
      * A nested AsyncTask class that performs the actual business of connecting to the web service.
      */
     private class DownloadHikesTask extends AsyncTask<String, Void, String> {
@@ -211,7 +241,6 @@ public class HikeDetailActivity extends AppCompatActivity {
                         result, Toast.LENGTH_LONG).show();
                 return;
             }
-            mHike = mhikeList.get(0);
 
 
         }
@@ -278,14 +307,16 @@ public class HikeDetailActivity extends AppCompatActivity {
                         result, Toast.LENGTH_LONG).show();
                 return;
             }
-            mHike = mhikeList.get(0);
+            for (Hike hike: mhikeList) {
+                if (hike.getmHikeName().equals(myHikeName)) {
+                    mHike = hike;
+                }
+            }
+
             displayHike();
 
 
         }
     }
 
-    private void displayHike() {
-                
-    }
 }
