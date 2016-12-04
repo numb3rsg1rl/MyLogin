@@ -12,6 +12,14 @@
     android:orientation="vertical"
     tools:context="watmok.tacoma.uw.edu.mylogin.HikeDetailActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:theme="?attr/actionBarTheme"
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/my_hd_toolbar" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +28,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/cast_album_art_placeholder"
+        app:srcCompat="@android:drawable/screen_background_dark"
         android:id="@+id/imageView" />
 
     <Button

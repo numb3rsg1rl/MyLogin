@@ -57,8 +57,8 @@ public class HikeFragment extends Fragment {
     }
 
     /**
-     * for creating a HikeFagment instance. Not used.
-     * @param columnCount the number of columsn in the list
+     * for creating a HikeFragment instance. Not used.
+     * @param columnCount the number of columns in the list
      * @return a new HikeFragment
      */
     public static HikeFragment newInstance(int columnCount) {

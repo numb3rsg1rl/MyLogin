@@ -8,7 +8,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,7 +21,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -40,10 +38,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import de.cketti.mailto.EmailIntentBuilder;
 import watmok.tacoma.uw.edu.mylogin.hike.Hike;
 
-public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleMap.OnInfoWindowClickListener {
+public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCallback,
+        GoogleMap.OnInfoWindowClickListener, GoogleMap.OnInfoWindowLongClickListener {
 
 
     private GoogleMap mMap;
@@ -96,6 +94,7 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
                             Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
                             Intent i=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(i);
+                            finish();
                         }
                    });
 //            Intent i = new Intent(TrailMapActivity.this,
@@ -166,6 +165,10 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
                     android.Manifest.permission.ACCESS_FINE_LOCATION},MY_PERMISSIONS_LOCATIONS);
 
         }
+
+        mMap.setOnInfoWindowClickListener(this);
+        mMap.setOnInfoWindowLongClickListener(this);
+
         mMap.setMyLocationEnabled(true);
         Location currentLocation = getMyLocation();
 
@@ -244,6 +247,15 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
         intent.putExtra("TRAIL_NAME",trailName);
         startActivity(intent);
 
+    }
+
+    @Override
+    public void onInfoWindowLongClick(Marker marker) {
+        String trailName = marker.getTitle();
+        Intent intent = new Intent(TrailMapActivity.this, HikeDetailActivity.class);
+        intent.putExtra("PREVIOUS_ACTIVITY","Map");
+        intent.putExtra("TRAIL_NAME",trailName);
+        startActivity(intent);
     }
 
 

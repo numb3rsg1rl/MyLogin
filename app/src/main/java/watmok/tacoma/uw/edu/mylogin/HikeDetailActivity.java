@@ -7,11 +7,15 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -26,13 +30,14 @@ import watmok.tacoma.uw.edu.mylogin.hike.Hike;
 
 public class HikeDetailActivity extends AppCompatActivity {
 
+    private GoogleApiClient mGoogleApiClient;
     private String myHikeName;
     private String lastActivity;
     private Hike mHike;
     private List<Hike> mhikeList;
 
-    private static final String HIKES_URL = "http://cssgate.insttech.washington.edu/~debergma/hikes.php?cmd=hike_detail";
-    private static final String HIKES_URL2 = "http://cssgate.insttech.washington.edu/~debergma/hikes.php?cmd=hike_image";
+    private static final String HIKES_URL = "http://cssgate.insttech.washington.edu/~debergma/hike_detail.php?cmd=hike_detail";
+    private static final String HIKES_URL2 = "http://cssgate.insttech.washington.edu/~debergma/hike_image.php?cmd=hike_image";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +46,24 @@ public class HikeDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.getStringExtra("PREVIOUS_ACTIVITY").equals("map")) {
             setUpFromMap(intent.getStringExtra("TRAIL_NAME"));
+        } else {
+            setUpFromList(intent.getStringExtra("TRAIL_NAME"));
         }
         //instantiate the Toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_hd_toolbar);
         setSupportActionBar(myToolbar);
+
+        Button findOnMap = (Button) findViewById(R.id.map_button);
+        findOnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String trailName = myHikeName;
+                Intent intent = new Intent(HikeDetailActivity.this, SpecificTrailMapsActivity.class);
+                intent.putExtra("TRAIL_NAME",trailName);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         DownloadHikesTask task = new DownloadHikesTask();
         task.execute(HIKES_URL);
@@ -56,12 +75,34 @@ public class HikeDetailActivity extends AppCompatActivity {
 
     }
 
+    private void setUpFromList(String trail_name) {
+        lastActivity = "List";
+        myHikeName = trail_name;
+    }
+
     /**
      * Sets up the activity with parameters from the map
      */
     protected void setUpFromMap(String hikeName) {
         lastActivity = "Map";
         myHikeName = hikeName;
+    }
+
+
+    /**
+     * Waits up to 2 seconds for the DownloadHikesTask to load data into mHikeList;
+     */
+    private void waitForHikeTask() {
+        double counter = 0;
+        while (counter < 2 && mhikeList == null) {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+                counter++;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     /**
@@ -84,29 +125,20 @@ public class HikeDetailActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         } else if (item.getItemId() == R.id.logout_item) {
-            Intent i = new Intent(HikeDetailActivity.this,
-                    MainActivity.class);
-            startActivity(i);
-            finish();
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(Status status) {
+                            // ...
+                            Toast.makeText(getApplicationContext(),"Logged Out",Toast.LENGTH_SHORT).show();
+                            Intent i=new Intent(getApplicationContext(),MainActivity.class);
+                            startActivity(i);
+                        }
+                    });
+
         }
 
         return true;
-    }
-
-    /**
-     * Waits up to 2 seconds for the DownloadHikesTask to load data into mHikeList;
-     */
-    private void waitForHikeTask() {
-        double counter = 0;
-        while (counter < 2 && mhikeList == null) {
-            try {
-                TimeUnit.SECONDS.sleep(1);
-                counter++;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
     }
 
     /**
@@ -135,7 +167,7 @@ public class HikeDetailActivity extends AppCompatActivity {
     /**
      * Helper method to create the text for the elevation gain imageView
      *
-     * @param theElevationGain
+     * @param theElevationGain the gain in elevation
      * @return A String that can go in the imageView
      */
     private String getElevationGainText(String theElevationGain) {
@@ -161,9 +193,10 @@ public class HikeDetailActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.hike_name);
         title.setText(myHikeName);
 
+        /**
         ImageView picture = (ImageView) findViewById(R.id.imageView);
         picture.setImageBitmap(mHike.getmPicture());
-
+        */
         TextView length = (TextView) findViewById(R.id.trail_length);
         length.setText(getTrailLengthText(mHike.getmLength()));
 
@@ -177,7 +210,13 @@ public class HikeDetailActivity extends AppCompatActivity {
         description.setText(mHike.getmLongDescription());
 
         TextView reviews = (TextView) findViewById(R.id.reviews);
-        reviews.setText(mHike.getmReviews());
+        String reviewText = mHike.getmReviews();
+        if (reviewText == null || reviewText.equals("null")) {
+            reviews.setText("No reviews yet.");
+        } else {
+            reviews.setText(reviewText);
+        }
+
 
     }
 
@@ -198,7 +237,7 @@ public class HikeDetailActivity extends AppCompatActivity {
 
             String response = "";
             StringBuilder builder = new StringBuilder();
-            HttpURLConnection urlConnection = null;
+            HttpURLConnection urlConnection ;
 
             for (String url : urls) {
                 try {
@@ -226,7 +265,7 @@ public class HikeDetailActivity extends AppCompatActivity {
          * Otherwise, calls the Hike class parseHikeJSON() method to fill the Hike list, and
          * then passes that list with the HikeFragments mListener to the RecycleViewAdapter.
          *
-         * @param result
+         * @param result the result message of the Download Task
          */
         protected void onPostExecute(String result) {
             if (result.startsWith("Unable to")) {
@@ -242,7 +281,12 @@ public class HikeDetailActivity extends AppCompatActivity {
                 return;
             }
 
-
+            for (Hike hike: mhikeList) {
+                if (hike.getmHikeName().equals(myHikeName)) {
+                    mHike = hike;
+                }
+            }
+            displayHike();
         }
 
 
@@ -265,7 +309,7 @@ public class HikeDetailActivity extends AppCompatActivity {
 
             String response = "";
             StringBuilder builder = new StringBuilder();
-            HttpURLConnection urlConnection = null;
+            HttpURLConnection urlConnection;
 
             for (String url : urls) {
                 try {
@@ -293,7 +337,7 @@ public class HikeDetailActivity extends AppCompatActivity {
          * Otherwise, calls the Hike class parseHikeJSON() method to fill the Hike list, and
          * then passes that list with the HikeFragments mListener to the RecycleViewAdapter.
          *
-         * @param result
+         * @param result  the result message of the Download Task
          */
         protected void onPostExecute(String result) {
             if (result.startsWith("Unable to")) {
