@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -34,7 +35,7 @@ public class HikeDetailActivity extends AppCompatActivity {
     private String myHikeName;
     private String lastActivity;
     private Hike mHike;
-    private List<Hike> mhikeList;
+    private List<Hike> mHikeList;
 
     private static final String HIKES_URL = "http://cssgate.insttech.washington.edu/~debergma/hike_detail.php?cmd=hike_detail";
     private static final String HIKES_URL2 = "http://cssgate.insttech.washington.edu/~debergma/hike_image.php?cmd=hike_image";
@@ -44,7 +45,7 @@ public class HikeDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hike_detail);
         Intent intent = getIntent();
-        if (intent.getStringExtra("PREVIOUS_ACTIVITY").equals("map")) {
+        if (intent.getStringExtra("PREVIOUS_ACTIVITY").equals("map")){
             setUpFromMap(intent.getStringExtra("TRAIL_NAME"));
         } else {
             setUpFromList(intent.getStringExtra("TRAIL_NAME"));
@@ -68,21 +69,36 @@ public class HikeDetailActivity extends AppCompatActivity {
         DownloadHikesTask task = new DownloadHikesTask();
         task.execute(HIKES_URL);
 
-        waitForHikeTask();
+        /*waitForHikeTask();
 
         DownloadPicturesTask task1 = new DownloadPicturesTask();
-        task1.execute(HIKES_URL2);
+        task1.execute(HIKES_URL2);*/
 
     }
+
+
+    @Override
+    protected void onStart() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
 
     private void setUpFromList(String trail_name) {
         lastActivity = "List";
         myHikeName = trail_name;
     }
+
     /**
      * Sets up the activity with parameters from the map
      */
-    protected void setUpFromMap(String hikeName) {
+    protected void setUpFromMap (String hikeName){
         lastActivity = "Map";
         myHikeName = hikeName;
     }
@@ -93,7 +109,7 @@ public class HikeDetailActivity extends AppCompatActivity {
      */
     private void waitForHikeTask() {
         double counter = 0;
-        while (counter < 2 && mhikeList == null) {
+        while (counter < 2 && mHikeList == null) {
             try {
                 TimeUnit.SECONDS.sleep(1);
                 counter++;
@@ -106,7 +122,6 @@ public class HikeDetailActivity extends AppCompatActivity {
 
     /**
      * provides functionality for menu items
-     *
      * @param item the menu item that has been selected
      * @return always true
      */
@@ -140,15 +155,15 @@ public class HikeDetailActivity extends AppCompatActivity {
         return true;
     }
 
+
     /**
      * Inflates the menu Layout onto the toolbar
-     *
      * @param menu - the menu that needs a layout, in this case the Toolbar from onCreate()
      * @return returns true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
 
@@ -192,10 +207,9 @@ public class HikeDetailActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.hike_name);
         title.setText(myHikeName);
 
-        /**
-        ImageView picture = (ImageView) findViewById(R.id.imageView);
-        picture.setImageBitmap(mHike.getmPicture());
-        */
+        /*ImageView picture = (ImageView) findViewById(R.id.imageView);
+        picture.setImageBitmap(mHike.getmPicture());*/
+
         TextView length = (TextView) findViewById(R.id.trail_length);
         length.setText(getTrailLengthText(mHike.getmLength()));
 
@@ -272,15 +286,14 @@ public class HikeDetailActivity extends AppCompatActivity {
                         result, Toast.LENGTH_LONG).show();
                 return;
             }
-            mhikeList = new ArrayList<>();
-            result = Hike.parseHikeJSON(result, mhikeList, true);
+            mHikeList = new ArrayList<>();
+            result = Hike.parseHikeJSON(result, mHikeList, true);
             if (result != null) {
                 Toast.makeText(getApplicationContext(),
                         result, Toast.LENGTH_LONG).show();
                 return;
             }
-
-            for (Hike hike: mhikeList) {
+            for (Hike hike: mHikeList) {
                 if (hike.getmHikeName().equals(myHikeName)) {
                     mHike = hike;
                 }
@@ -344,13 +357,13 @@ public class HikeDetailActivity extends AppCompatActivity {
                         result, Toast.LENGTH_LONG).show();
                 return;
             }
-            result = Hike.parseImageJSON(result, mhikeList);
+            result = Hike.parseImageJSON(result, mHikeList);
             if (result != null) {
                 Toast.makeText(getApplicationContext(),
                         result, Toast.LENGTH_LONG).show();
                 return;
             }
-            for (Hike hike: mhikeList) {
+            for (Hike hike: mHikeList) {
                 if (hike.getmHikeName().equals(myHikeName)) {
                     mHike = hike;
                 }
