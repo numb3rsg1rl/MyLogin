@@ -8,6 +8,7 @@
     <string name="loading">Loading</string>
     <string name="disconnect">Disconnect</string>
     <string name="signed_in_fmt">Signed in as %1$s</string>
+    <string name="welcome_fmt">Welcome %1$s</string>
     <string name="signed_out">You are signed out.</string>
     <string name="title_activity_specific_trail_maps">Map</string>
 </resources>

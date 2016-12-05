@@ -1,11 +1,14 @@
 package watmok.tacoma.uw.edu.mylogin;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -16,11 +19,20 @@ import com.google.android.gms.common.api.Status;
 
 public class MainMenuActivity extends AppCompatActivity {
     private GoogleApiClient mGoogleApiClient;
+    private TextView mWelcomeTextView;
+
+    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String Name = "nameKey";
+    SharedPreferences sharedpreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        mWelcomeTextView = (TextView) findViewById(R.id.welcome_view);
+        mWelcomeTextView.setText(getString(R.string.welcome_fmt, sharedpreferences.getString(Name, "null")));
         Button maps = (Button) findViewById(R.id.browse_hike_map_button);
         maps.setOnClickListener(new View.OnClickListener() {
             @Override
