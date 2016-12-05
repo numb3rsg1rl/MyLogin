@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import de.cketti.mailto.EmailIntentBuilder;
 import watmok.tacoma.uw.edu.mylogin.hike.Hike;
 
 public class HikeDetailActivity extends AppCompatActivity {
@@ -77,9 +78,10 @@ public class HikeDetailActivity extends AppCompatActivity {
     }
 
     /**
-     * add functionality for the two buttons
+     * add functionality for the buttons
      */
     private void addButtons() {
+        //set up findOnMap button
         Button findOnMap = (Button) findViewById(R.id.map_button);
         findOnMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +94,20 @@ public class HikeDetailActivity extends AppCompatActivity {
             }
         });
 
+        // set up email a friend button
+        final Button email = (Button) findViewById(R.id.email_button);
+        email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EmailIntentBuilder.from(getApplicationContext())
+                        .subject("Please join me for a hike at " + myHikeName)
+                        .start();
+
+            }
+        });
+
+
+        //Set up review buttons
         final Button submit = (Button) findViewById(R.id.submit_button);
         final EditText reviewBox = (EditText) findViewById(R.id.review_box);
         final Button postReview = (Button) findViewById(R.id.post_review_button);
