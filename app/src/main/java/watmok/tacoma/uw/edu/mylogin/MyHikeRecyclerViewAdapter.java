@@ -94,7 +94,7 @@ public class MyHikeRecyclerViewAdapter extends RecyclerView.Adapter<MyHikeRecycl
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.content);
-            mIdView.setTextSize(16);
+            mIdView.setTextSize(14);
             mContentView.setTextSize(12);
         }
 
