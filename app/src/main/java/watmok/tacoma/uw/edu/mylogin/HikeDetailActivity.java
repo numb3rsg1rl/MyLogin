@@ -5,10 +5,12 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,8 +23,10 @@ import com.google.android.gms.common.api.Status;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -45,7 +49,7 @@ public class HikeDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hike_detail);
         Intent intent = getIntent();
-        if (intent.getStringExtra("PREVIOUS_ACTIVITY").equals("map")){
+        if (intent.getStringExtra("PREVIOUS_ACTIVITY").equals("Map")){
             setUpFromMap(intent.getStringExtra("TRAIL_NAME"));
         } else {
             setUpFromList(intent.getStringExtra("TRAIL_NAME"));
@@ -54,6 +58,22 @@ public class HikeDetailActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_hd_toolbar);
         setSupportActionBar(myToolbar);
 
+        addButtons();
+
+        DownloadHikesTask task = new DownloadHikesTask();
+        task.execute(HIKES_URL);
+
+        /*waitForHikeTask();
+
+        DownloadPicturesTask task1 = new DownloadPicturesTask();
+        task1.execute(HIKES_URL2);*/
+
+    }
+
+    /**
+     * add functionality for the two buttons
+     */
+    private void addButtons() {
         Button findOnMap = (Button) findViewById(R.id.map_button);
         findOnMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,13 +86,53 @@ public class HikeDetailActivity extends AppCompatActivity {
             }
         });
 
-        DownloadHikesTask task = new DownloadHikesTask();
-        task.execute(HIKES_URL);
+        final Button submit = (Button) findViewById(R.id.submit_button);
+        final EditText reviewBox = (EditText) findViewById(R.id.review_box);
+        final Button postReview = (Button) findViewById(R.id.post_review_button);
 
-        /*waitForHikeTask();
+        final UploadReviewTask task = new UploadReviewTask();
 
-        DownloadPicturesTask task1 = new DownloadPicturesTask();
-        task1.execute(HIKES_URL2);*/
+        postReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                reviewBox.setVisibility(View.VISIBLE);
+                submit.setVisibility(View.VISIBLE);
+                postReview.setVisibility(View.GONE);
+
+            }
+        });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String newReview = reviewBox.getText().toString();
+                TextView oldReviewBox = (TextView) findViewById(R.id.reviews);
+                if (!oldReviewBox.getText().toString().equals("No reviews yet.")) {
+                    newReview = oldReviewBox.getText().toString() + "/n" + newReview;
+                }
+
+                try {
+                    String url =
+                            "http://cssgate.insttech.washington.edu/~debergma/UploadReviews.php?name="
+                                    + URLEncoder.encode(myHikeName,"UTF-8") + "&reviews="
+                                    + URLEncoder.encode(newReview,"UTF-8");
+                    task.execute(url);
+
+                    postReview.setVisibility(View.VISIBLE);
+                    submit.setVisibility(View.GONE);
+                    reviewBox.setVisibility(View.GONE);
+
+                    Toast.makeText(getApplicationContext(),"Review Submitted",
+                            Toast.LENGTH_SHORT).show();
+                } catch (UnsupportedEncodingException e) {
+                    Log.e("Upload Review", e.toString());
+                    e.printStackTrace();
+                }
+
+            }
+        });
 
     }
 
@@ -174,7 +234,8 @@ public class HikeDetailActivity extends AppCompatActivity {
      * @return A String that can go in the imageView
      */
     private String getMaxElevationText(String theElevation) {
-        if (theElevation != null) return "Max Elevation in Feet: " + theElevation;
+        if (theElevation != null && !theElevation.equals("null")) return "Max Elevation in Feet: "
+                + theElevation;
         return "Max Elevation in Feet: Not Available";
     }
 
@@ -185,7 +246,8 @@ public class HikeDetailActivity extends AppCompatActivity {
      * @return A String that can go in the imageView
      */
     private String getElevationGainText(String theElevationGain) {
-        if (theElevationGain != null) return "Elevation Gain in Feet: " + theElevationGain;
+        if (theElevationGain != null && !theElevationGain.equals("null"))
+            return "Elevation Gain in Feet: " + theElevationGain;
         return "Elevation Gain in Feet: Not Available";
     }
 
@@ -196,7 +258,8 @@ public class HikeDetailActivity extends AppCompatActivity {
      * @return A String that can go in the imageView
      */
     private String getTrailLengthText(String theLength) {
-        if (theLength != null) return "Trail Length in Miles: " + theLength;
+        if (theLength != null && !theLength.equals("null"))
+            return "Trail Length in Miles: " + theLength;
         return "Trail Length in Miles: Not Available";
     }
 
@@ -234,7 +297,8 @@ public class HikeDetailActivity extends AppCompatActivity {
     }
 
     /**
-     * A nested AsyncTask class that performs the actual business of connecting to the web service.
+     * A nested AsyncTask class that performs the actual work of connecting to the web service
+     * to download the details of the Hike.
      */
     private class DownloadHikesTask extends AsyncTask<String, Void, String> {
 
@@ -301,9 +365,65 @@ public class HikeDetailActivity extends AppCompatActivity {
             displayHike();
         }
 
+    }
+    /**
+     * A nested AsyncTask class that performs the actual work of connecting to the web service
+     * to upload the a new review for this Hike.
+     */
+    private class UploadReviewTask extends AsyncTask<String, Void, String> {
 
+        /**
+         * Uses the URL(s) for the webservice to check for service and connect to the Hike database
+         *
+         * @param urls the url(s) for the web service
+         * @return a String with a JSON message, if successful, or an error message if something
+         * went wrong.
+         */
+        @Override
+        protected String doInBackground(String... urls) {
+
+            String response = "";
+            StringBuilder builder = new StringBuilder();
+            HttpURLConnection urlConnection ;
+
+            for (String url : urls) {
+                try {
+
+                    URL urlObject = new URL(url);
+                    urlConnection = (HttpURLConnection) urlObject.openConnection();
+                    InputStream content = urlConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+                    String s;
+                    while ((s = reader.readLine()) != null) {
+                        builder.append(s);
+                    }
+                    response = builder.toString();
+
+                } catch (Exception e) {
+                    response = "Unable to upload the Hike list. Reason: " + e.getMessage();
+                }
+            }
+
+            return response;
+        }
+
+        /**
+         * Makes a toast if there was an error message to display it.
+         * Otherwise, calls the Hike class parseHikeJSON() method to fill the Hike list, and
+         * then passes that list with the HikeFragments mListener to the RecycleViewAdapter.
+         *
+         * @param result the result message of the Download Task
+         */
+        protected void onPostExecute(String result) {
+            if (result.startsWith("Unable to")) {
+                Toast.makeText(getApplicationContext(),
+                        result, Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
 
     }
+
     /**
      * A nested AsyncTask class that performs the actual business of connecting to the web service.
      */

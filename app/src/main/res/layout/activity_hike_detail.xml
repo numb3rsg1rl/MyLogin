@@ -21,62 +21,87 @@
         android:minHeight="?attr/actionBarSize"
         android:id="@+id/my_hd_toolbar" />
 
-    <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:theme="?attr/actionBarTheme"
-        android:minHeight="?attr/actionBarSize"
-        android:id="@+id/my_hd_toolbar" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/hike_name" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/screen_background_dark"
-        android:id="@+id/imageView" />
 
-    <Button
-        android:text="View trail on map"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/map_button"
-        android:background="@color/Brick" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/trail_length" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/elevation" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/screen_background_dark"
+                android:id="@+id/imageView" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/elevation_gain" />
+            <Button
+                android:text="View trail on map"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/map_button"
+                android:background="@color/Brick" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/description" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/trail_length" />
 
-    <TextView
-        android:text="Reviews:"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/review_title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/elevation" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/reviews" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/elevation_gain" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/description" />
+
+            <TextView
+                android:text="Reviews:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/review_title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/reviews" />
+
+            <Button
+                android:text="Post a review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/post_review_button"
+                android:background="@color/Brick" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:hint="Enter your review here."
+                android:visibility="gone"
+                android:id="@+id/review_box"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit_review"
+                android:background="@color/Brick"
+                android:id="@+id/submit_button"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
