@@ -1,6 +1,8 @@
 package watmok.tacoma.uw.edu.mylogin;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,6 +46,10 @@ public class HikeDetailActivity extends AppCompatActivity {
     private static final String HIKES_URL = "http://cssgate.insttech.washington.edu/~debergma/hike_detail.php?cmd=hike_detail";
     private static final String HIKES_URL2 = "http://cssgate.insttech.washington.edu/~debergma/hike_image.php?cmd=hike_image";
 
+    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String Name = "nameKey";
+    public static final String Email = "emailKey";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +88,7 @@ public class HikeDetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(HikeDetailActivity.this, SpecificTrailMapsActivity.class);
                 intent.putExtra("TRAIL_NAME",trailName);
                 startActivity(intent);
-                finish();
+
             }
         });
 
@@ -107,10 +113,12 @@ public class HikeDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String newReview = reviewBox.getText().toString();
+                SharedPreferences shared = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                String displayName = shared.getString(Name,"Name unavailable");
+                String newReview = reviewBox.getText().toString()+ "\nReviewed by: " +displayName;
                 TextView oldReviewBox = (TextView) findViewById(R.id.reviews);
                 if (!oldReviewBox.getText().toString().equals("No reviews yet.")) {
-                    newReview = oldReviewBox.getText().toString() + "/n" + newReview;
+                    newReview = oldReviewBox.getText().toString() + "\n\n" + newReview;
                 }
 
                 try {
