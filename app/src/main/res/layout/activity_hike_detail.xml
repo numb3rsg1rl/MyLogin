@@ -41,14 +41,22 @@
                 app:srcCompat="@android:drawable/screen_background_dark"
                 android:id="@+id/imageView" />
 
-    <Button
-        android:text="View trail on map"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/map_button"
-        android:background="@color/Brick"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            <Button
+                android:text="View trail on map"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/map_button"
+                android:paddingBottom="5dp"
+                android:background="@color/Brick"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
+
+            <Button
+                android:text="Email a friend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/email_button"
+                android:background="@color/Brick" />
 
             <TextView
                 android:layout_width="match_parent"
