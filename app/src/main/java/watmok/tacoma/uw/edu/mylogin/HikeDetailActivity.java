@@ -79,6 +79,7 @@ public class HikeDetailActivity extends AppCompatActivity {
         lastActivity = "List";
         myHikeName = trail_name;
     }
+
     /**
      * Sets up the activity with parameters from the map
      */
