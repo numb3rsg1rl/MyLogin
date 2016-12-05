@@ -8,12 +8,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
@@ -30,6 +32,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private static final String TAG = "SignInActivity";
     private TextView mStatusTextView;
 
+    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String Name = "nameKey";
+    public static final String Email = "emailKey";
+
+
+    SharedPreferences sharedpreferences;
+
     private GoogleApiClient mGoogleApiClient;
     private ProgressDialog mProgressDialog;
 
@@ -43,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         setContentView(R.layout.activity_main);
         // Views
         mStatusTextView = (TextView) findViewById(R.id.status);
+
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         // Button listeners
         findViewById(R.id.sign_in_button).setOnClickListener(this);
@@ -113,6 +124,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putString(Name, acct.getDisplayName());
+            editor.putString(Email, acct.getEmail());
+            editor.commit();
             updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.

@@ -16,7 +16,6 @@
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
         android:theme="?attr/actionBarTheme"
         android:minHeight="?attr/actionBarSize"
         android:id="@+id/my_hd_toolbar" />
@@ -42,12 +41,14 @@
                 app:srcCompat="@android:drawable/screen_background_dark"
                 android:id="@+id/imageView" />
 
-            <Button
-                android:text="View trail on map"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/map_button"
-                android:background="@color/Brick" />
+    <Button
+        android:text="View trail on map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/map_button"
+        android:background="@color/Brick"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
 
             <TextView
                 android:layout_width="match_parent"
