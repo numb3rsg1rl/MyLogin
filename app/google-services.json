@@ -1,0 +1,79 @@
+{
+  "project_info": {
+    "project_number": "294540851881",
+    "project_id": "hikingtrailapp"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:294540851881:android:5aeb39a1a0ff1908",
+        "android_client_info": {
+          "package_name": "watmok.tacoma.uw.edu.loginpage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "294540851881-67mg30s656vclaq8sj36rkuj4cfj0jtk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbxDt5D8N0VMI0YJLVCy48Y0xasz5RkQA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:294540851881:android:f0e9ad796b030728",
+        "android_client_info": {
+          "package_name": "watmok.tacoma.uw.edu.mylogin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "294540851881-n7iaf0r7gcajojf73lnovlfd8ucpg33r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "watmok.tacoma.uw.edu.mylogin",
+            "certificate_hash": "ADED289298C98803290402412B76CC20AC0B3CC1"
+          }
+        },
+        {
+          "client_id": "294540851881-67mg30s656vclaq8sj36rkuj4cfj0jtk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbxDt5D8N0VMI0YJLVCy48Y0xasz5RkQA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
