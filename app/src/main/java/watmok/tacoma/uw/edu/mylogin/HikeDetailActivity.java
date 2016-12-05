@@ -34,7 +34,7 @@ public class HikeDetailActivity extends AppCompatActivity {
     private String myHikeName;
     private String lastActivity;
     private Hike mHike;
-    private List<Hike> mhikeList;
+    private List<Hike> mHikeList;
 
     private static final String HIKES_URL = "http://cssgate.insttech.washington.edu/~debergma/hike_detail.php?cmd=hike_detail";
     private static final String HIKES_URL2 = "http://cssgate.insttech.washington.edu/~debergma/hike_image.php?cmd=hike_image";
@@ -93,7 +93,7 @@ public class HikeDetailActivity extends AppCompatActivity {
      */
     private void waitForHikeTask() {
         double counter = 0;
-        while (counter < 2 && mhikeList == null) {
+        while (counter < 2 && mHikeList == null) {
             try {
                 TimeUnit.SECONDS.sleep(1);
                 counter++;
@@ -138,6 +138,7 @@ public class HikeDetailActivity extends AppCompatActivity {
 
         return true;
     }
+
 
     /**
      * Inflates the menu Layout onto the toolbar
@@ -269,15 +270,14 @@ public class HikeDetailActivity extends AppCompatActivity {
                         result, Toast.LENGTH_LONG).show();
                 return;
             }
-            mhikeList = new ArrayList<>();
-            result = Hike.parseHikeJSON(result, mhikeList, true);
+            mHikeList = new ArrayList<>();
+            result = Hike.parseHikeJSON(result, mHikeList, true);
             if (result != null) {
                 Toast.makeText(getApplicationContext(),
                         result, Toast.LENGTH_LONG).show();
                 return;
             }
-
-            for (Hike hike: mhikeList) {
+            for (Hike hike: mHikeList) {
                 if (hike.getmHikeName().equals(myHikeName)) {
                     mHike = hike;
                 }
@@ -341,13 +341,13 @@ public class HikeDetailActivity extends AppCompatActivity {
                         result, Toast.LENGTH_LONG).show();
                 return;
             }
-            result = Hike.parseImageJSON(result, mhikeList);
+            result = Hike.parseImageJSON(result, mHikeList);
             if (result != null) {
                 Toast.makeText(getApplicationContext(),
                         result, Toast.LENGTH_LONG).show();
                 return;
             }
-            for (Hike hike: mhikeList) {
+            for (Hike hike: mHikeList) {
                 if (hike.getmHikeName().equals(myHikeName)) {
                     mHike = hike;
                 }
