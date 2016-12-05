@@ -66,7 +66,9 @@ public class SpecificTrailMapsActivity extends AppCompatActivity implements OnMa
     }
 
 
-
+    /**
+     *
+     */
     @Override
     protected void onStart() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
