@@ -243,7 +243,6 @@ public class HikeDetailActivity extends AppCompatActivity {
         return true;
     }
 
-
     /**
      * Inflates the menu Layout onto the toolbar
      * @param menu - the menu that needs a layout, in this case the Toolbar from onCreate()
@@ -334,7 +333,6 @@ public class HikeDetailActivity extends AppCompatActivity {
 
         /**
          * Uses the URL(s) for the webservice to check for service and connect to the Hike database
-         *
          * @param urls the url(s) for the web service
          * @return a String with a JSON message, if successful, or an error message if something
          * went wrong.
