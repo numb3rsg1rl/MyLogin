@@ -33,6 +33,5 @@ dependencies {
     compile 'com.google.android.gms:play-services:9.0.0'
     compile 'com.google.android.gms:play-services-auth:9.0.0'
     testCompile 'junit:junit:4.12'
-    compile files('C:/Users/Dovi/AndroidStudioProjects/MyLogin-1/picasso-2.5.2.jar')
     compile files('libs/picasso-2.5.2.jar')
 }
