@@ -205,6 +205,8 @@ public class HikeFragment extends Fragment {
             }
             List<Hike> hikeList = new ArrayList<>();
             result = Hike.parseHikeJSON(result,hikeList, false);
+            //check list for trailname existing in sqlite table. If not, remove hike
+
             if (result != null) {
                 Toast.makeText(getActivity().getApplicationContext(),
                         result,Toast.LENGTH_LONG).show();
