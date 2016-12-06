@@ -48,8 +48,8 @@
                 android:id="@+id/map_button"
                 android:paddingBottom="5dp"
                 android:background="@color/Brick"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:layout_weight="1.84"/>
 
             <Button
                 android:text="Email a friend"
@@ -61,22 +61,27 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/trail_length" />
+                android:id="@+id/trail_length"
+                android:textSize="18sp"
+                android:layout_weight="0.71" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/elevation" />
+                android:id="@+id/elevation"
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/elevation_gain" />
+                android:id="@+id/elevation_gain"
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/description" />
+                android:id="@+id/description"
+                android:textSize="18sp" />
 
             <TextView
                 android:text="Reviews:"
