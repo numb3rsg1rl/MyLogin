@@ -3,6 +3,7 @@ package watmok.tacoma.uw.edu.mylogin;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -43,10 +46,12 @@ public class HikeDetailActivity extends AppCompatActivity {
     private String lastActivity;
     private Hike mHike;
     private List<Hike> mHikeList;
+    private Bitmap mBitmap;
 
-    private static final String HIKES_URL = "http://cssgate.insttech.washington.edu/~debergma/hike_detail.php?cmd=hike_detail";
-    private static final String HIKES_URL2 = "http://cssgate.insttech.washington.edu/~debergma/hike_image.php?cmd=hike_image";
-
+    private static final String HIKES_URL
+            = "http://cssgate.insttech.washington.edu/~debergma/hike_detail.php?cmd=hike_detail";
+    private static final String HIKES_URL2
+            = "http://cssgate.insttech.washington.edu/~debergma/pics/";
     public static final String MyPREFERENCES = "MyPrefs";
     public static final String Name = "nameKey";
     public static final String Email = "emailKey";
@@ -69,11 +74,6 @@ public class HikeDetailActivity extends AppCompatActivity {
 
         DownloadHikesTask task = new DownloadHikesTask();
         task.execute(HIKES_URL);
-
-        /*waitForHikeTask();
-
-        DownloadPicturesTask task1 = new DownloadPicturesTask();
-        task1.execute(HIKES_URL2);*/
 
     }
 
@@ -112,7 +112,7 @@ public class HikeDetailActivity extends AppCompatActivity {
         final EditText reviewBox = (EditText) findViewById(R.id.review_box);
         final Button postReview = (Button) findViewById(R.id.post_review_button);
 
-        final UploadReviewTask task = new UploadReviewTask();
+
 
         postReview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,25 +131,29 @@ public class HikeDetailActivity extends AppCompatActivity {
 
                 SharedPreferences shared = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
                 String displayName = shared.getString(Name,"Name unavailable");
-                String newReview = reviewBox.getText().toString()+ "\nReviewed by: " +displayName;
+                String newReview = reviewBox.getText().toString() + "\n   Reviewed by: "+displayName;
                 TextView oldReviewBox = (TextView) findViewById(R.id.reviews);
                 if (!oldReviewBox.getText().toString().equals("No reviews yet.")) {
                     newReview = oldReviewBox.getText().toString() + "\n\n" + newReview;
                 }
 
                 try {
+                    UploadReviewTask task = new UploadReviewTask();
                     String url =
-                            "http://cssgate.insttech.washington.edu/~debergma/UploadReviews.php?name="
+                            "http://cssgate.insttech.washington.edu/~debergma/UpdateReviews.php?name="
                                     + URLEncoder.encode(myHikeName,"UTF-8") + "&reviews="
                                     + URLEncoder.encode(newReview,"UTF-8");
+                    Log.e("URL: ", url);
                     task.execute(url);
 
                     postReview.setVisibility(View.VISIBLE);
                     submit.setVisibility(View.GONE);
                     reviewBox.setVisibility(View.GONE);
+                    reviewBox.setText("");
 
                     Toast.makeText(getApplicationContext(),"Review Submitted",
                             Toast.LENGTH_SHORT).show();
+
                 } catch (UnsupportedEncodingException e) {
                     Log.e("Upload Review", e.toString());
                     e.printStackTrace();
@@ -294,8 +298,10 @@ public class HikeDetailActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.hike_name);
         title.setText(myHikeName);
 
-        /*ImageView picture = (ImageView) findViewById(R.id.imageView);
-        picture.setImageBitmap(mHike.getmPicture());*/
+        ImageView picture = (ImageView) findViewById(R.id.imageView);
+        Picasso.with(getApplicationContext())
+                .load(HIKES_URL2+mHike.getmPicUrlEnding())
+                .into(picture);
 
         TextView length = (TextView) findViewById(R.id.trail_length);
         length.setText(getTrailLengthText(mHike.getmLength()));
@@ -448,75 +454,5 @@ public class HikeDetailActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * A nested AsyncTask class that performs the actual business of connecting to the web service.
-     */
-    private class DownloadPicturesTask extends AsyncTask<String, Void, String> {
-
-        /**
-         * Uses the URL(s) for the webservice to check for service and connect to the Hike database
-         *
-         * @param urls the url(s) for the web service
-         * @return a String with a JSON message, if successful, or an error message if something
-         * went wrong.
-         */
-        @Override
-        protected String doInBackground(String... urls) {
-
-            String response = "";
-            StringBuilder builder = new StringBuilder();
-            HttpURLConnection urlConnection;
-
-            for (String url : urls) {
-                try {
-
-                    URL urlObject = new URL(url);
-                    urlConnection = (HttpURLConnection) urlObject.openConnection();
-                    InputStream content = urlConnection.getInputStream();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-                    String s = "";
-                    while ((s = reader.readLine()) != null) {
-                        builder.append(s);
-                    }
-                    response = builder.toString();
-
-                } catch (Exception e) {
-                    response = "Unable to download the pictures list. Reason: " + e.getMessage();
-                }
-            }
-
-            return response;
-        }
-
-        /**
-         * Makes a toast if there was an error message to display it.
-         * Otherwise, calls the Hike class parseHikeJSON() method to fill the Hike list, and
-         * then passes that list with the HikeFragments mListener to the RecycleViewAdapter.
-         *
-         * @param result  the result message of the Download Task
-         */
-        protected void onPostExecute(String result) {
-            if (result.startsWith("Unable to")) {
-                Toast.makeText(getApplicationContext(),
-                        result, Toast.LENGTH_LONG).show();
-                return;
-            }
-            result = Hike.parseImageJSON(result, mHikeList);
-            if (result != null) {
-                Toast.makeText(getApplicationContext(),
-                        result, Toast.LENGTH_LONG).show();
-                return;
-            }
-            for (Hike hike: mHikeList) {
-                if (hike.getmHikeName().equals(myHikeName)) {
-                    mHike = hike;
-                }
-            }
-
-            displayHike();
-
-
-        }
-    }
 
 }
