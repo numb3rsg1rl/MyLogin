@@ -35,6 +35,7 @@ public class Hike implements Serializable {
     private String mMaxElevation;
     private String mElevationGain;
     private String mReviews;
+    private String mPicUrlEnding;
 
 
     /**
@@ -49,7 +50,7 @@ public class Hike implements Serializable {
     private static final String ELEV_GAIN = "Elevation_Gain_Ft";
     private static final String LONG_DESCRIPTION = "Long_Description";
     private static final String REVIEWS ="Reviews";
-
+    private static final String PICS_URL = "Pic_Url";
 
     /**
      * Constructor for contrusting a hikes object with only the name and description.
@@ -88,13 +89,15 @@ public class Hike implements Serializable {
 
 
     private Hike(String theHikeName, String theLongDescription, String theCoordinates,
-                 String theLength, String theElevGain, String theMaxElev, String theReviews) {
+                 String theLength, String theElevGain, String theMaxElev, String theReviews,
+                 String thePicUrl) {
         mHikeName = theHikeName;
         mLength = theLength;
         mLongDescription = theLongDescription;
         mElevationGain = theElevGain;
         mMaxElevation = theMaxElev;
         mReviews = theReviews;
+        mPicUrlEnding = thePicUrl;
         Scanner scanner = new Scanner(theCoordinates);
 
         // the following parsing code is based on the first answer on
@@ -147,12 +150,11 @@ public class Hike implements Serializable {
                             hike = new Hike(object.getString(HIKE_NAME), object.getString(LONG_DESCRIPTION),
                                     object.getString(TRAIL_COORDINATES), object.getString(LENGTH),
                                     object.getString(ELEV_GAIN), object.getString(MAX_ELEV),
-                                    object.getString(REVIEWS));
+                                    object.getString(REVIEWS),object.getString(PICS_URL));
                         }
                     } else {
                         hike = new Hike(object.getString(HIKE_NAME), object.getString(SHORT_DESCRIPTION));
                     }
-                    //TODO: If getUnsavedHikes is false, only add saved hikes from SQLite
 
                     hikeList.add(hike);
                 }
@@ -164,28 +166,6 @@ public class Hike implements Serializable {
         return reason;
     }
 
-    public static String parseImageJSON (String hikeJSON, List<Hike> hikeList) {
-        String reason = null;
-
-        if (hikeJSON != null) {
-            try {
-
-                JSONArray array = new JSONArray(hikeJSON);
-                for (int i = 0; i<array.length(); i++) {
-                    JSONObject object = array.getJSONObject(i);
-                    Hike hike = hikeList.get(i);
-                    String base64image = object.getString(PICTURE);
-                    byte[] rawImage = Base64.decode(base64image, Base64.DEFAULT);
-                    Bitmap bmp = BitmapFactory.decodeByteArray(rawImage, 0, rawImage.length);
-                    hike.setmPicture(bmp);
-                }
-            } catch (JSONException e) {
-                reason = "Unable to parse data. Reason: " + e.getMessage();
-            }
-        }
-
-        return reason;
-    }
 
     public String getmLongDescription() {
         return mLongDescription;
@@ -239,6 +219,13 @@ public class Hike implements Serializable {
         this.mReviews = mReviews;
     }
 
+    public String getmPicUrlEnding() {
+        return mPicUrlEnding;
+    }
+
+    public void setmPicUrlEnding(String mPicUrlEnding) {
+        this.mPicUrlEnding = mPicUrlEnding;
+    }
     /**
      * Getter for mHikeName
      * @return an instance of mHikeName

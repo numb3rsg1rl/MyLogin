@@ -22,7 +22,7 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
         android:id="@+id/hike_name" />
 
 
@@ -33,8 +33,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:weightSum="1">
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -42,40 +41,42 @@
                 app:srcCompat="@android:drawable/screen_background_dark"
                 android:id="@+id/imageView" />
 
-    <Button
-        android:text="View trail on map"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/map_button"
-        android:background="@color/Brick"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:layout_weight="1.84" />
+            <Button
+                android:text="View trail on map"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/map_button"
+                android:paddingBottom="5dp"
+                android:background="@color/Brick"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
+
+            <Button
+                android:text="Email a friend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/email_button"
+                android:background="@color/Brick" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/trail_length"
-                android:textSize="18sp"
-                android:layout_weight="0.71" />
+                android:id="@+id/trail_length" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/elevation"
-                android:textSize="18sp" />
+                android:id="@+id/elevation" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/elevation_gain"
-                android:textSize="18sp" />
+                android:id="@+id/elevation_gain" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/description"
-                android:textSize="18sp" />
+                android:id="@+id/description" />
 
             <TextView
                 android:text="Reviews:"
@@ -95,7 +96,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/post_review_button"
                 android:background="@color/Brick" />
-
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
