@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="Brown">#873600</color>
-    <color name="Parchment">#FDEBD0</color><!--Background-->
+    <color name="Parchment">#fdebd0</color><!--Background-->
     <color name="Burgundy">#a93226</color><!--When button is Visible/ TitleBar -->
     <color name="Brick">#cb4335</color><!--When button is pressed-->
 </resources>

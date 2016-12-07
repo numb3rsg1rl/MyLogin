@@ -11,4 +11,13 @@
     <string name="welcome_fmt">Welcome %1$s</string>
     <string name="signed_out">You are signed out.</string>
     <string name="title_activity_specific_trail_maps">Map</string>
+    <string name="favorite">Favorite</string>
+    <string name="email_a_friend">Email a friend</string>
+    <string name="enter_your_review_here">Enter your review here.</string>
+    <string name="post_a_review">Post a review</string>
+    <string name="reviews">Reviews:</string>
+    <string name="submit_review">Submit_review</string>
+    <string name="view_trail_on_map">View trail on map</string>
+    <string name="view_all_hikes">View All Hikes</string>
+    <string name="view_favorite_hikes">View Favorites</string>
 </resources>

@@ -23,12 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A fragment representing a list of Hikes.
+ * A fragment representing a list of Items.
  * <p/>
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class HikeFragment extends Fragment {
+public class HikeFragment2 extends Fragment {
+
 
     /**
      * Fields used to identify the column count and webservice URL for objects calling this fragment.
@@ -43,17 +44,22 @@ public class HikeFragment extends Fragment {
     /**
      * Listener for interaction with the fragment, taken from the Activity that contains it.
      */
-    private OnListFragmentInteractionListener mListener;
+    private HikeFragment2.OnListFragmentInteractionListener mListener;
     /**
      * the RecyclerView that will be used to display Hikes inside this fragment
      */
     private RecyclerView mRecyclerView;
 
+    FavoritesDataBaseAdapter favDataBaseAdapter;
+
+
+
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public HikeFragment() {
+    public HikeFragment2() {
     }
 
     /**
@@ -61,8 +67,8 @@ public class HikeFragment extends Fragment {
      * @param columnCount the number of columns in the list
      * @return a new HikeFragment
      */
-    public static HikeFragment newInstance(int columnCount) {
-        HikeFragment fragment = new HikeFragment();
+    public static HikeFragment2 newInstance(int columnCount) {
+        HikeFragment2 fragment = new HikeFragment2();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -95,8 +101,9 @@ public class HikeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_hike_list, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_hike_list2, container, false);
+        favDataBaseAdapter = new FavoritesDataBaseAdapter(getActivity());
+        favDataBaseAdapter = favDataBaseAdapter.open();
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -106,7 +113,7 @@ public class HikeFragment extends Fragment {
             } else {
                 mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            DownloadHikesTask task = new DownloadHikesTask();
+            HikeFragment2.DownloadHikesTask task = new HikeFragment2.DownloadHikesTask();
             task.execute(HIKES_URL);
         }
         return view;
@@ -120,8 +127,8 @@ public class HikeFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
+        if (context instanceof HikeFragment2.OnListFragmentInteractionListener) {
+            mListener = (HikeFragment2.OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
@@ -200,11 +207,12 @@ public class HikeFragment extends Fragment {
         protected void onPostExecute(String result) {
             if (result.startsWith("Unable to")) {
                 Toast.makeText(getActivity().getApplicationContext(),
-                               result,Toast.LENGTH_LONG).show();
+                        result,Toast.LENGTH_LONG).show();
                 return;
             }
             List<Hike> hikeList = new ArrayList<>();
-            result = Hike.parseHikeJSON(result,hikeList);
+            List<String> savedHikes = new ArrayList<>();
+            result = Hike.parseHikeJSON(result,hikeList, favDataBaseAdapter);
             //check list for trailname existing in sqlite table. If not, remove hike
 
             if (result != null) {
@@ -213,7 +221,7 @@ public class HikeFragment extends Fragment {
                 return;
             }
             if (!hikeList.isEmpty() && hikeList != null) {
-                MyHikeRecyclerViewAdapter adapter =new MyHikeRecyclerViewAdapter(hikeList,mListener);
+                MyHikeRecyclerViewAdapter2 adapter =new MyHikeRecyclerViewAdapter2(hikeList,mListener);
                 mRecyclerView.setAdapter(adapter);
             }
         }

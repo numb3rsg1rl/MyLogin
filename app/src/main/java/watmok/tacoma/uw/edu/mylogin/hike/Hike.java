@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
 
+
+
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -12,8 +14,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import watmok.tacoma.uw.edu.mylogin.FavoritesDataBaseAdapter;
 
 /**
  * A class that parses and stores instances of Hikes to be displayed,
@@ -22,7 +27,7 @@ import java.util.Scanner;
 
 public class Hike implements Serializable {
 
-
+    FavoritesDataBaseAdapter favDataBaseAdapter;
     /**
      * Strings for a name of the Hike, and a short description of it.
      */
@@ -36,7 +41,6 @@ public class Hike implements Serializable {
     private String mElevationGain;
     private String mReviews;
     private String mPicUrlEnding;
-
 
     /**
      * Identifiers for parsing the JSON string
@@ -110,6 +114,7 @@ public class Hike implements Serializable {
 
         mCoordinates = new LatLng(lat,lng);
 
+
     }
     public static String getHikeName() {
         return HIKE_NAME;
@@ -128,36 +133,42 @@ public class Hike implements Serializable {
      * @author Daniel Bergman
      * @param hikeJSON The JSON string
      * @param hikeList The list of Hike objects
-     * @param getUnsavedHikes
      * @return Returns String reason, an error message if something went wrong.
      */
-    public static String parseHikeJSON(String hikeJSON, List<Hike> hikeList, boolean getUnsavedHikes) {
+    public static String parseHikeJSON(String hikeJSON, List<Hike> hikeList) {
         String reason = null;
 
         if (hikeJSON != null) {
             try {
-
                 JSONArray array = new JSONArray(hikeJSON);
-                for (int i = 0; i<array.length(); i++) {
-                    JSONObject object = array.getJSONObject(i);
-                    Hike hike;
-                    if (object.has(TRAIL_COORDINATES)) {
-                        if (object.has(SHORT_DESCRIPTION)) {
-                            hike = new Hike(object.getString(HIKE_NAME), object.getString(SHORT_DESCRIPTION),
-                                object.getString(TRAIL_COORDINATES));
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject object = array.getJSONObject(i);
+                        Hike hike;
+                        if (object.has(TRAIL_COORDINATES)) {
+                            if (object.has(SHORT_DESCRIPTION)) {
+                                hike = new Hike(object.getString(HIKE_NAME), object.getString(SHORT_DESCRIPTION),
+                                        object.getString(TRAIL_COORDINATES));
+                            } else {
+
+                                hike = new Hike(object.getString(HIKE_NAME), object.getString(LONG_DESCRIPTION),
+                                        object.getString(TRAIL_COORDINATES), object.getString(LENGTH),
+                                        object.getString(ELEV_GAIN), object.getString(MAX_ELEV),
+                                        object.getString(REVIEWS), object.getString(PICS_URL));
+                            }
                         } else {
-
-                            hike = new Hike(object.getString(HIKE_NAME), object.getString(LONG_DESCRIPTION),
-                                    object.getString(TRAIL_COORDINATES), object.getString(LENGTH),
-                                    object.getString(ELEV_GAIN), object.getString(MAX_ELEV),
-                                    object.getString(REVIEWS),object.getString(PICS_URL));
+                            hike = new Hike(object.getString(HIKE_NAME), object.getString(SHORT_DESCRIPTION));
                         }
-                    } else {
-                        hike = new Hike(object.getString(HIKE_NAME), object.getString(SHORT_DESCRIPTION));
-                    }
 
-                    hikeList.add(hike);
-                }
+//                        boolean issaved;
+//                        ArrayList<String> saved = hike.getSavedHikesList();
+//                        for (String name : saved) {
+//                            if (hike.getmHikeName().equals(name)) {
+//                                issaved=true;
+//                            }
+//                        }
+
+                        hikeList.add(hike);
+                    }
             } catch (JSONException e) {
                 reason = "Unable to parse data. Reason: " + e.getMessage();
             }
@@ -166,6 +177,53 @@ public class Hike implements Serializable {
         return reason;
     }
 
+    /**
+     * Parses a JSON String into a JSON array, and uses it to fill a List of Hike objects.
+     * @author Daniel Bergman
+     * @param hikeJSON The JSON string
+     * @param hikeList The list of Hike objects
+     * @return Returns String reason, an error message if something went wrong.
+     */
+    public static String parseHikeJSON(String hikeJSON, List<Hike> hikeList, FavoritesDataBaseAdapter adapter) {
+        String reason = null;
+
+        if (hikeJSON != null) {
+            try {
+                JSONArray array = new JSONArray(hikeJSON);
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject object = array.getJSONObject(i);
+                    Hike hike;
+                    if (object.has(TRAIL_COORDINATES)) {
+                        if (object.has(SHORT_DESCRIPTION)) {
+                            hike = new Hike(object.getString(HIKE_NAME), object.getString(SHORT_DESCRIPTION),
+                                    object.getString(TRAIL_COORDINATES));
+                        } else {
+
+                            hike = new Hike(object.getString(HIKE_NAME), object.getString(LONG_DESCRIPTION),
+                                    object.getString(TRAIL_COORDINATES), object.getString(LENGTH),
+                                    object.getString(ELEV_GAIN), object.getString(MAX_ELEV),
+                                    object.getString(REVIEWS), object.getString(PICS_URL));
+                        }
+                    } else {
+                        hike = new Hike(object.getString(HIKE_NAME), object.getString(SHORT_DESCRIPTION));
+                    }
+
+                        ArrayList<String> saved = adapter.getAllEntries();
+                        for (String name : saved) {
+                            if (hike.getmHikeName().equals(name)) {
+                                hikeList.add(hike);
+                            }
+                        }
+
+
+                }
+            } catch (JSONException e) {
+                reason = "Unable to parse data. Reason: " + e.getMessage();
+            }
+        }
+
+        return reason;
+    }
 
     public String getmLongDescription() {
         return mLongDescription;

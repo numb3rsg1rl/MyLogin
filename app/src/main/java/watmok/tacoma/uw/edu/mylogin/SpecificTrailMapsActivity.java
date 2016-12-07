@@ -212,7 +212,7 @@ public class SpecificTrailMapsActivity extends AppCompatActivity implements OnMa
                 return;
             }
             ArrayList<Hike> mHikeList = new ArrayList<>();
-            result = Hike.parseHikeJSON(result,mHikeList,true);
+            result = Hike.parseHikeJSON(result,mHikeList);
             if (result != null) {
                 Toast.makeText(getApplicationContext(),
                         result,Toast.LENGTH_LONG).show();

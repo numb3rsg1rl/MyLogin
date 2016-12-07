@@ -42,11 +42,20 @@ public class MainMenuActivity extends AppCompatActivity {
                 finish();
             }
         });
-        Button saved_hikes = (Button) findViewById(R.id.view_saved_hikes_button);
-        saved_hikes.setOnClickListener(new View.OnClickListener() {
+        Button all_hikes = (Button) findViewById(R.id.view_all_hikes_button);
+        all_hikes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainMenuActivity.this, HikeActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+        Button fav_hikes = (Button) findViewById(R.id.view_favorite_hikes_button);
+        fav_hikes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainMenuActivity.this, FavoritesActivity.class);
                 startActivity(i);
                 finish();
             }

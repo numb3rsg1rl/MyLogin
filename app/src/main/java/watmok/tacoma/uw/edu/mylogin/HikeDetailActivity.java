@@ -13,8 +13,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +50,9 @@ public class HikeDetailActivity extends AppCompatActivity {
     private List<Hike> mHikeList;
     private Bitmap mBitmap;
 
+    FavoritesDataBaseAdapter favDataBaseAdapter;
+    private Switch mySwitch;
+
     private static final String HIKES_URL
             = "http://cssgate.insttech.washington.edu/~debergma/hike_detail.php?cmd=hike_detail";
     private static final String HIKES_URL2
@@ -61,10 +66,17 @@ public class HikeDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hike_detail);
         Intent intent = getIntent();
+
+        favDataBaseAdapter = new FavoritesDataBaseAdapter(this);
+        favDataBaseAdapter = favDataBaseAdapter.open();
+
+
         if (intent.getStringExtra("PREVIOUS_ACTIVITY").equals("Map")){
             setUpFromMap(intent.getStringExtra("TRAIL_NAME"));
-        } else {
+        } else if (intent.getStringExtra("PREVIOUS_ACTIVITY").equals("Hike_List")){
             setUpFromList(intent.getStringExtra("TRAIL_NAME"));
+        }else{
+            setUpFromSavedList(intent.getStringExtra("TRAIL_NAME"));
         }
         //instantiate the Toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_hd_toolbar);
@@ -77,10 +89,42 @@ public class HikeDetailActivity extends AppCompatActivity {
 
     }
 
+
     /**
      * add functionality for the buttons
      */
     private void addButtons() {
+
+        mySwitch = (Switch) findViewById(R.id.saveHike);
+
+        String checkName = favDataBaseAdapter.getSingleEntry(myHikeName);
+        //if the name is in the database (set the switch to OFF
+        if(checkName.equals("NOT EXIST")){
+            mySwitch.setChecked(false);
+        }else {
+            //set the switch to ON
+            mySwitch.setChecked(true);
+        }
+        //attach a listener to check for changes in state
+        mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                String name = myHikeName;
+                if(isChecked){
+                    favDataBaseAdapter.insertEntry(name);
+                    String message = favDataBaseAdapter.getSingleEntry(name)+ " has been added";
+                    Toast.makeText(getApplicationContext(),
+                            message, Toast.LENGTH_LONG).show();
+                }else{
+                    favDataBaseAdapter.deleteEntry(name);
+                }
+
+            }
+        });
+
+
         //set up findOnMap button
         Button findOnMap = (Button) findViewById(R.id.map_button);
         findOnMap.setOnClickListener(new View.OnClickListener() {
@@ -178,6 +222,12 @@ public class HikeDetailActivity extends AppCompatActivity {
     }
 
 
+    private void setUpFromSavedList(String trail_name) {
+        lastActivity = "Saved_List";
+        myHikeName = trail_name;
+
+    }
+
     private void setUpFromList(String trail_name) {
         lastActivity = "List";
         myHikeName = trail_name;
@@ -186,7 +236,7 @@ public class HikeDetailActivity extends AppCompatActivity {
     /**
      * Sets up the activity with parameters from the map
      */
-    protected void setUpFromMap (String hikeName){
+    private void setUpFromMap (String hikeName){
         lastActivity = "Map";
         myHikeName = hikeName;
     }
@@ -217,12 +267,15 @@ public class HikeDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.back_item) {
             Intent i;
-            if (lastActivity.equals("map")) {
+            if (lastActivity.equals("Map")) {
                 i = new Intent(HikeDetailActivity.this,
                         TrailMapActivity.class);
-            } else {
+            } else if (lastActivity.equals("List")) {
                 i = new Intent(HikeDetailActivity.this,
                         HikeActivity.class);
+            } else {
+                i = new Intent(HikeDetailActivity.this,
+                        FavoritesActivity.class);
             }
             startActivity(i);
             finish();
@@ -379,7 +432,7 @@ public class HikeDetailActivity extends AppCompatActivity {
                 return;
             }
             mHikeList = new ArrayList<>();
-            result = Hike.parseHikeJSON(result, mHikeList, true);
+            result = Hike.parseHikeJSON(result, mHikeList);
             if (result != null) {
                 Toast.makeText(getApplicationContext(),
                         result, Toast.LENGTH_LONG).show();

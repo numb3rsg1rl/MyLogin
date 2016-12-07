@@ -5,25 +5,30 @@
     android:id="@+id/activity_hike_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     tools:context="watmok.tacoma.uw.edu.mylogin.HikeDetailActivity"
+    tools:theme="@style/AppTheme"
     android:theme="@style/AppTheme">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="?attr/actionBarTheme"
+        android:theme="@style/TitleAppTheme"
         android:minHeight="?attr/actionBarSize"
-        android:id="@+id/my_hd_toolbar" />
+        android:id="@+id/my_hd_toolbar"
+        android:background="@color/Brick"
+        tools:background="@color/Brick"
+        app:subtitleTextAppearance="@color/Parchment"
+        app:titleTextAppearance="@color/Parchment" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/hike_name" />
+        android:id="@+id/hike_name"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"/>
 
 
     <ScrollView
@@ -33,7 +38,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -41,8 +50,16 @@
                 app:srcCompat="@android:drawable/screen_background_dark"
                 android:id="@+id/imageView" />
 
+            <Switch
+                android:text="@string/favorite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/saveHike"
+                android:textColor="@color/Parchment" />
+
+
             <Button
-                android:text="View trail on map"
+                android:text="@string/view_trail_on_map"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/map_button"
@@ -52,7 +69,7 @@
                 android:layout_weight="1.84"/>
 
             <Button
-                android:text="Email a friend"
+                android:text="@string/email_a_friend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/email_button"
@@ -84,7 +101,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:text="Reviews:"
+                android:text="@string/reviews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/review_title"
@@ -96,21 +113,22 @@
                 android:id="@+id/reviews" />
 
             <Button
-                android:text="Post a review"
+                android:text="@string/post_a_review"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/post_review_button"
                 android:background="@color/Brick" />
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:hint="Enter your review here."
+                android:hint="@string/enter_your_review_here"
                 android:visibility="gone"
                 android:id="@+id/review_box"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Submit_review"
+                android:text="@string/submit_review"
                 android:background="@color/Brick"
                 android:id="@+id/submit_button"
                 android:visibility="gone"/>

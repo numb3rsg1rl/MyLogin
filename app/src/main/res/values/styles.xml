@@ -9,7 +9,14 @@
         <item name="android:textColorHint">@color/Parchment</item>
 
     </style>
+    <style name="TitleAppTheme" parent="AppTheme">
+        <item name="android:background">@color/Brick</item>
+        <item name="android:textColor">@color/Parchment</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:editTextColor">@color/Parchment</item>
+        <item name="android:textColorHint">@color/Parchment</item>
 
+    </style>
 
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBar">false</item>
