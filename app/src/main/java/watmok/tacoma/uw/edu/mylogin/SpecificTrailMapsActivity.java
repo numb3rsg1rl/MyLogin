@@ -42,6 +42,10 @@ public class SpecificTrailMapsActivity extends AppCompatActivity implements OnMa
     private static final String HIKES_URL = "http://cssgate.insttech.washington.edu/~debergma/hikes.php?cmd=hikes1";
 
 
+    /**
+     * sets up the activity, starts the download task and then loads the map
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +73,7 @@ public class SpecificTrailMapsActivity extends AppCompatActivity implements OnMa
 
 
     /**
-     *
+     *creates the GoogleAPIClient
      */
     @Override
     protected void onStart() {
