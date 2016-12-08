@@ -158,15 +158,6 @@ public class Hike implements Serializable {
                         } else {
                             hike = new Hike(object.getString(HIKE_NAME), object.getString(SHORT_DESCRIPTION));
                         }
-
-//                        boolean issaved;
-//                        ArrayList<String> saved = hike.getSavedHikesList();
-//                        for (String name : saved) {
-//                            if (hike.getmHikeName().equals(name)) {
-//                                issaved=true;
-//                            }
-//                        }
-
                         hikeList.add(hike);
                     }
             } catch (JSONException e) {

@@ -27,7 +27,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     *
+     * Creates the database by using the execSQL
      * @param _db
      */
     @Override
@@ -36,6 +36,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Upgrades the Database using the specified version given, and recreates the database.
+     * Is not implemented in the code, but must be implemented in DatabaseHelper
+     * @param _db
+     * @param _oldVersion
+     * @param _newVersion
+     */
     @Override
     public void onUpgrade(SQLiteDatabase _db, int _oldVersion, int _newVersion) {
         Log.w("TaskDBAdapter", "Upgrading from version " + _oldVersion + " to "

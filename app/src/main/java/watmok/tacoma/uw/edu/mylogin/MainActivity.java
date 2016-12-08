@@ -77,51 +77,64 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         // [END customize_button]
     }
 
+    /**
+     * onStart() allows the Google API to be initialized so it can be used throughout the rest of
+     * the app. If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+     * and the GoogleSignInResult will be available instantly.
+     * If the user has not previously signed in on this device or the sign-in has expired,
+     * this asynchronous branch will attempt to sign in the user silently.  Cross-device
+     * single sign-on will occur in this method.
+     */
     @Override
     public void onStart() {
         super.onStart();
 
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
        if (opr.isDone()) {
-//            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-//            // and the GoogleSignInResult will be available instantly.
+
             Log.d(TAG, "Got cached sign-in");
             GoogleSignInResult result = opr.get();
             handleSignInResult(result);
+
        } else {
-            // If the user has not previously signed in on this device or the sign-in has expired,
-            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-            // single sign-on will occur in this branch.
-            showProgressDialog();
+
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                 @Override
                 public void onResult(GoogleSignInResult googleSignInResult) {
-                    hideProgressDialog();
                     handleSignInResult(googleSignInResult);
                 }
             });
        }
     }
 
-    // [START onActivityResult]
+    /**
+     * this method is the result returned from launching the Intent from
+     * GoogleSignInApi.getSignInIntent(...);
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             int statusCode = result.getStatus().getStatusCode();
             handleSignInResult(result);
         }
     }
-    // [END onActivityResult]
 
-    // [START handleSignInResult]
+    /**
+     * This method handles the result of the sign in. If the user signed in
+     * successfully, show authenticated UI. Otherwise, the user is signed out,
+     * show unauthenticated UI.
+     * @param result
+     */
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
+
             GoogleSignInAccount acct = result.getSignInAccount();
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
             SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -129,38 +142,28 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             editor.putString(Email, acct.getEmail());
             editor.commit();
             updateUI(true);
+
         } else {
-            // Signed out, show unauthenticated UI.
             updateUI(false);
         }
     }
-    // [END handleSignInResult]
 
-    // [END signOut]
-
+    /**
+     * This method is called if there is an unresolvable error has occurred and
+     * Google APIs (including Sign-In) will not be available.
+     * @param connectionResult
+     */
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
-        // be available.
+
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
+
     }
 
-    private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.loading));
-            mProgressDialog.setIndeterminate(true);
-        }
-
-        mProgressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
-        }
-    }
-
+    /**
+     * This lets the user know whether the user is signed in or not
+     * @param signedIn TRUE if the user is signed in, and FALSE if not signed in
+     */
     private void updateUI(boolean signedIn) {
         if (signedIn) {
             Intent signIn = new Intent(getApplicationContext(), MainMenuActivity.class);
@@ -171,24 +174,24 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             //finish();
         }
     }
+
+    /**
+     * Destroys Activity
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
     }
 
-    private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
 
-
+    /**
+     * Opens the Sign In Intent created by Google and starts the Activity
+     * @param v
+     */
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.sign_in_button:
-                signIn();
-                break;
-        }
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
 }

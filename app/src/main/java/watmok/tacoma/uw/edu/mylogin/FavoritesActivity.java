@@ -18,23 +18,23 @@ import com.google.android.gms.common.api.Status;
 import watmok.tacoma.uw.edu.mylogin.hike.Hike;
 
 /**
- * The activity that acts as a fragment container for the Hike list. You land here when you sign in,
- * and logging off sends you back to main, at which point you need to sign in again to get back
- * here.
- * Note: At this point, the OnClickInteractionListener is implemented with an empty method. We will
- * be adding detail fragments later, at which point we will be adding content to that method.
+ * The activity that acts as a fragment container for the Favorites Hike list. You land here when you
+ * click on the View Favorites button and logging off sends you back to main,
+ * at which point you need to sign in again to get back to the main menu.
  */
 public class FavoritesActivity extends AppCompatActivity implements FavoritesFragment.OnListFragmentInteractionListener {
+
     private GoogleApiClient mGoogleApiClient;
     /**
      * Creates the activity, and instantiates the HikeFragment inside. Also creates the logout button.
-     * @param savedInstanceState
+     * When the activity is created, the content view is set to
+     * @param savedInstanceState The
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_hike);
+        setContentView(R.layout.activity_favorites);
 
         //instantiate the Toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -77,6 +77,10 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesFra
         startActivity(intent);
     }
 
+    /**
+     * onStart() allows the Google API to be initialized so it can be used throughout the rest of
+     * the app
+     */
     @Override
     protected void onStart() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -91,6 +95,9 @@ public class FavoritesActivity extends AppCompatActivity implements FavoritesFra
 
     /**
      * provides functionality for menu items
+     * If BACK then the user is redirected to the main menu
+     * If SIGN OUT then the user is signed out of the app and brought back to
+     * the login Page, with a Toast Message saying that the user is logged out
      * @param item the menu item that has been selected
      * @return always true
      */

@@ -68,7 +68,7 @@ public class HikeActivity extends AppCompatActivity implements HikeFragment.OnLi
      * What happens when you click on a Hike item from the list.
      * Gets the name of the hike, and passes it through the intent
      * to create a HikeDetail fragment of that Hike.
-     * @param item
+     * @param item that is created by object Hike
      */
     @Override
     public void onListFragmentInteraction(Hike item) {
@@ -79,6 +79,10 @@ public class HikeActivity extends AppCompatActivity implements HikeFragment.OnLi
         startActivity(intent);
     }
 
+    /**
+     * onStart() allows the Google API to be initialized so it can be used throughout the rest of
+     * the app
+     */
     @Override
     protected void onStart() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -93,6 +97,9 @@ public class HikeActivity extends AppCompatActivity implements HikeFragment.OnLi
 
     /**
      * provides functionality for menu items
+     * If BACK then the user is redirected to the main menu
+     * If SIGN OUT then the user is signed out of the app and brought back to
+     * the login Page, with a Toast Message saying that the user is logged out
      * @param item the menu item that has been selected
      * @return always true
      */

@@ -23,13 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A fragment representing a list of Items.
- * <p/>
+ * Favorites Fragment Displays a list of trails that the user has defined as their
+ * favorite via the Switch in the Hike Detail Activity
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
 public class FavoritesFragment extends Fragment {
-
 
     /**
      * Fields used to identify the column count and webservice URL for objects calling this fragment.
@@ -51,9 +50,6 @@ public class FavoritesFragment extends Fragment {
     private RecyclerView mRecyclerView;
 
     FavoritesDataBaseAdapter favDataBaseAdapter;
-
-
-
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -93,10 +89,10 @@ public class FavoritesFragment extends Fragment {
      * Inflates the fragment, using the RecyclerView.
      * Then starts the AsyncTask that will retrieve the Hike data from the web service.
      *
-     * @param inflater
+     * @param inflater inflates the Fragment Container
      * @param container
      * @param savedInstanceState
-     * @return
+     * @return show the Favorites Fragment
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -211,9 +207,8 @@ public class FavoritesFragment extends Fragment {
                 return;
             }
             List<Hike> hikeList = new ArrayList<>();
-            List<String> savedHikes = new ArrayList<>();
             result = Hike.parseHikeJSON(result,hikeList, favDataBaseAdapter);
-            //check list for trailname existing in sqlite table. If not, remove hike
+            //check list for trailname existing in sqlite table. If not, remove hike from view
 
             if (result != null) {
                 Toast.makeText(getActivity().getApplicationContext(),

@@ -11,7 +11,8 @@ import watmok.tacoma.uw.edu.mylogin.hike.Hike;
 import java.util.List;
 
 /**
- *
+ * This class is used for the the Favorites Fragment to show the list of the user selected
+ * favorite Trails
  */
 public class MyHikeRecyclerViewAdapter2 extends RecyclerView.Adapter<MyHikeRecyclerViewAdapter2.ViewHolder> {
 
@@ -19,11 +20,9 @@ public class MyHikeRecyclerViewAdapter2 extends RecyclerView.Adapter<MyHikeRecyc
     private final FavoritesFragment.OnListFragmentInteractionListener mListener;
 
     /**
-     * A constructior for the adapter
+     * A constructor for the adapter
      * @param items A list of Hikes to be displayed
      * @param listener An interaction listener in case someone clicks on a Hike.
-     *                 Currently does nothing, but will be used in the future to display more info
-     *                 on a separate page/fragment.
      */
     public MyHikeRecyclerViewAdapter2(List<Hike> items, FavoritesFragment.OnListFragmentInteractionListener listener) {
         mValues = items;
@@ -44,7 +43,7 @@ public class MyHikeRecyclerViewAdapter2 extends RecyclerView.Adapter<MyHikeRecyc
     }
 
     /**
-     * To bind the view holder to the acual data from a hike, and its onClickListener
+     * To bind the view holder to the actual data from a hike, and its onClickListener
      * @param holder
      * @param position
      */
@@ -68,7 +67,7 @@ public class MyHikeRecyclerViewAdapter2 extends RecyclerView.Adapter<MyHikeRecyc
 
     /**
      * Returns the size of the Hike list
-     * @return
+     * @return the size of the Hike List
      */
     @Override
     public int getItemCount() {
@@ -85,6 +84,10 @@ public class MyHikeRecyclerViewAdapter2 extends RecyclerView.Adapter<MyHikeRecyc
         public final TextView mContentView;
         public Hike mItem;
 
+        /**
+         * Handles the view content in the fragment
+         * @param view
+         */
         public ViewHolder(View view) {
             super(view);
             mView = view;
@@ -94,6 +97,10 @@ public class MyHikeRecyclerViewAdapter2 extends RecyclerView.Adapter<MyHikeRecyc
             mContentView.setTextSize(12);
         }
 
+        /**
+         * This method returns the content in String form
+         * @return content in String form
+         */
         @Override
         public String toString() {
             return super.toString() + " '" + mContentView.getText() + "'";

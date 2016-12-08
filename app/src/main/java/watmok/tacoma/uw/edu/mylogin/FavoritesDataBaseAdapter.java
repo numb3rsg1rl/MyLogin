@@ -17,9 +17,13 @@ import java.util.ArrayList;
  * This class creates and edits the database created by SQLite
  */
 public class FavoritesDataBaseAdapter {
+    //String DATABASE name
     static final String DATABASE_NAME = "SavedHikes.db";
+
+    //Version of Database which is set to 1
     static final int DATABASE_VERSION = 1;
-    public static final int NAME_COLUMN = 1;
+
+
     static final String DATABASE_CREATE = "create table " + "SAVEDHIKES" + "( "
             + "NAME text); ";
     public SQLiteDatabase db;
@@ -32,6 +36,8 @@ public class FavoritesDataBaseAdapter {
      */
     public FavoritesDataBaseAdapter(Context _context) {
         context = _context;
+
+        //Creates Database via DataBaseHelper
         dbHelper = new DataBaseHelper(context, DATABASE_NAME, null,
                 DATABASE_VERSION);
     }
@@ -55,16 +61,8 @@ public class FavoritesDataBaseAdapter {
     }
 
     /**
-     * This returns the database itself (not used in the code at all!)
-     * @return
-     */
-    public SQLiteDatabase getDatabaseInstance() {
-        return db;
-    }
-
-    /**
-     * This code creates a new entry with the password and username that the user provides
-     * @param name
+     * This code creates a new entry with the name of the Trail that is provided
+     * @param name the Trail name being added to SAVEDHIKES
      */
     public void insertEntry(String name) {
         ContentValues newValues = new ContentValues();
@@ -87,9 +85,11 @@ public class FavoritesDataBaseAdapter {
     }
 
     /**
-     * When called with the desired username, this method returns the password of the entry
+     * When called with the Trail name, this method searches the database to see if the trail name
+     * has already been added to the SAVEDHIKES database or if it does not exist in the database.
+     * It then returns either the name of the Trail or the String NOT EXIST
      * @param name
-     * @return password of that username
+     * @return name that is found or NOT EXIST if can't find in database
      */
     public String getSingleEntry(String name) {
         Cursor cursor = db.query("SAVEDHIKES", null, "NAME=?",
@@ -104,6 +104,10 @@ public class FavoritesDataBaseAdapter {
         return uname;
     }
 
+    /**
+     * This method, when called, creates an ArrayList of all the Trail names in the database
+     * @return an ArrayList of all the names in the database
+     */
     public ArrayList<String> getAllEntries(){
         String selectQuery = "SELECT  * FROM SAVEDHIKES";
         ArrayList<String> list = new ArrayList<>();
@@ -116,9 +120,6 @@ public class FavoritesDataBaseAdapter {
                      String obj="";
                     //only one column
                     obj=cursor.getString(0);
-
-                    //you could add additional columns here..
-
                     list.add(obj);
                 } while (cursor.moveToNext());
             }
