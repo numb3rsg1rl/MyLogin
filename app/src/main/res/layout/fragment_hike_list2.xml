@@ -9,7 +9,7 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="watmok.tacoma.uw.edu.mylogin.HikeFragment2"
+    tools:context="watmok.tacoma.uw.edu.mylogin.FavoritesFragment"
     tools:listitem="@layout/fragment_hike2"
     tools:theme="@style/AppTheme"
     android:theme="@style/AppTheme"

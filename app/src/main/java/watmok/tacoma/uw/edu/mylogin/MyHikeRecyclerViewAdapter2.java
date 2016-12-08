@@ -11,14 +11,12 @@ import watmok.tacoma.uw.edu.mylogin.hike.Hike;
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link Hike} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
+ *
  */
 public class MyHikeRecyclerViewAdapter2 extends RecyclerView.Adapter<MyHikeRecyclerViewAdapter2.ViewHolder> {
 
     private final List<Hike> mValues;
-    private final HikeFragment2.OnListFragmentInteractionListener mListener;
+    private final FavoritesFragment.OnListFragmentInteractionListener mListener;
 
     /**
      * A constructior for the adapter
@@ -27,7 +25,7 @@ public class MyHikeRecyclerViewAdapter2 extends RecyclerView.Adapter<MyHikeRecyc
      *                 Currently does nothing, but will be used in the future to display more info
      *                 on a separate page/fragment.
      */
-    public MyHikeRecyclerViewAdapter2(List<Hike> items, HikeFragment2.OnListFragmentInteractionListener listener) {
+    public MyHikeRecyclerViewAdapter2(List<Hike> items, FavoritesFragment.OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }

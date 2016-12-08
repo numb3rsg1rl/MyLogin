@@ -34,6 +34,7 @@ import watmok.tacoma.uw.edu.mylogin.hike.Hike;
 
 public class SpecificTrailMapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+    private String lastActivity;
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private String mTrailName;
@@ -54,6 +55,7 @@ public class SpecificTrailMapsActivity extends AppCompatActivity implements OnMa
         // Get trail name from the intent
         Intent intent = getIntent();
         mTrailName = intent.getStringExtra("TRAIL_NAME");
+        lastActivity = intent.getStringExtra("PREVIOUS_ACTIVITY");
 
         DownloadHikesTask task = new DownloadHikesTask();
         task.execute(HIKES_URL);
@@ -110,7 +112,8 @@ public class SpecificTrailMapsActivity extends AppCompatActivity implements OnMa
         if (item.getItemId() == R.id.back_item) {
             Intent i = new Intent(SpecificTrailMapsActivity.this,
                         HikeDetailActivity.class);
-
+            i.putExtra("PREVIOUS_ACTIVITY",lastActivity);
+            i.putExtra("TRAIL_NAME",mTrailName);
 
             startActivity(i);
             finish();
