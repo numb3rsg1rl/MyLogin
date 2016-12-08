@@ -13,7 +13,7 @@ import java.util.List;
 /**
  *
  */
-public class MyHikeRecyclerViewAdapter2 extends RecyclerView.Adapter<MyHikeRecyclerViewAdapter2.ViewHolder> {
+public class MyFavoritesRecyclerViewAdapter extends RecyclerView.Adapter<MyFavoritesRecyclerViewAdapter.ViewHolder> {
 
     private final List<Hike> mValues;
     private final FavoritesFragment.OnListFragmentInteractionListener mListener;
@@ -25,7 +25,7 @@ public class MyHikeRecyclerViewAdapter2 extends RecyclerView.Adapter<MyHikeRecyc
      *                 Currently does nothing, but will be used in the future to display more info
      *                 on a separate page/fragment.
      */
-    public MyHikeRecyclerViewAdapter2(List<Hike> items, FavoritesFragment.OnListFragmentInteractionListener listener) {
+    public MyFavoritesRecyclerViewAdapter(List<Hike> items, FavoritesFragment.OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -37,10 +37,10 @@ public class MyHikeRecyclerViewAdapter2 extends RecyclerView.Adapter<MyHikeRecyc
      * @return
      */
     @Override
-    public MyHikeRecyclerViewAdapter2.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyFavoritesRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_hike, parent, false);
-        return new MyHikeRecyclerViewAdapter2.ViewHolder(view);
+        return new MyFavoritesRecyclerViewAdapter.ViewHolder(view);
     }
 
     /**
@@ -49,7 +49,7 @@ public class MyHikeRecyclerViewAdapter2 extends RecyclerView.Adapter<MyHikeRecyc
      * @param position
      */
     @Override
-    public void onBindViewHolder(final MyHikeRecyclerViewAdapter2.ViewHolder holder, int position) {
+    public void onBindViewHolder(final MyFavoritesRecyclerViewAdapter.ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).getmHikeName());
         holder.mContentView.setText(mValues.get(position).getmShortDescription());

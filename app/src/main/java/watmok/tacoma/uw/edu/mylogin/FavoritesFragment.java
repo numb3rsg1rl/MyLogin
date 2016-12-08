@@ -221,7 +221,7 @@ public class FavoritesFragment extends Fragment {
                 return;
             }
             if (!hikeList.isEmpty() && hikeList != null) {
-                MyHikeRecyclerViewAdapter2 adapter =new MyHikeRecyclerViewAdapter2(hikeList,mListener);
+                MyFavoritesRecyclerViewAdapter adapter =new MyFavoritesRecyclerViewAdapter(hikeList,mListener);
                 mRecyclerView.setAdapter(adapter);
             }
         }
