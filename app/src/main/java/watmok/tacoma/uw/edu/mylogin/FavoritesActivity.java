@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -26,7 +24,7 @@ import watmok.tacoma.uw.edu.mylogin.hike.Hike;
  * Note: At this point, the OnClickInteractionListener is implemented with an empty method. We will
  * be adding detail fragments later, at which point we will be adding content to that method.
  */
-public class FavoritesActivity extends AppCompatActivity implements HikeFragment2.OnListFragmentInteractionListener {
+public class FavoritesActivity extends AppCompatActivity implements FavoritesFragment.OnListFragmentInteractionListener {
     private GoogleApiClient mGoogleApiClient;
     /**
      * Creates the activity, and instantiates the HikeFragment inside. Also creates the logout button.
@@ -45,7 +43,7 @@ public class FavoritesActivity extends AppCompatActivity implements HikeFragment
 
         if (savedInstanceState == null
                 && getSupportFragmentManager().findFragmentById(R.id.list) == null) {
-            HikeFragment2 hikeFragment = new HikeFragment2();
+            FavoritesFragment hikeFragment = new FavoritesFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, hikeFragment).commit();
         }
 

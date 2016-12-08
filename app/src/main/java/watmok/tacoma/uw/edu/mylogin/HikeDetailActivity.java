@@ -133,6 +133,7 @@ public class HikeDetailActivity extends AppCompatActivity {
                 String trailName = myHikeName;
                 Intent intent = new Intent(HikeDetailActivity.this, SpecificTrailMapsActivity.class);
                 intent.putExtra("TRAIL_NAME",trailName);
+                intent.putExtra("PREVIOUS_ACTIVITY",lastActivity);
                 startActivity(intent);
 
             }

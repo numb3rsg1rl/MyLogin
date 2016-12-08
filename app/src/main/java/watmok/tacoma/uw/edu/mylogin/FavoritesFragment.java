@@ -28,7 +28,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class HikeFragment2 extends Fragment {
+public class FavoritesFragment extends Fragment {
 
 
     /**
@@ -44,7 +44,7 @@ public class HikeFragment2 extends Fragment {
     /**
      * Listener for interaction with the fragment, taken from the Activity that contains it.
      */
-    private HikeFragment2.OnListFragmentInteractionListener mListener;
+    private FavoritesFragment.OnListFragmentInteractionListener mListener;
     /**
      * the RecyclerView that will be used to display Hikes inside this fragment
      */
@@ -59,7 +59,7 @@ public class HikeFragment2 extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public HikeFragment2() {
+    public FavoritesFragment() {
     }
 
     /**
@@ -67,8 +67,8 @@ public class HikeFragment2 extends Fragment {
      * @param columnCount the number of columns in the list
      * @return a new HikeFragment
      */
-    public static HikeFragment2 newInstance(int columnCount) {
-        HikeFragment2 fragment = new HikeFragment2();
+    public static FavoritesFragment newInstance(int columnCount) {
+        FavoritesFragment fragment = new FavoritesFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -113,7 +113,7 @@ public class HikeFragment2 extends Fragment {
             } else {
                 mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            HikeFragment2.DownloadHikesTask task = new HikeFragment2.DownloadHikesTask();
+            FavoritesFragment.DownloadHikesTask task = new FavoritesFragment.DownloadHikesTask();
             task.execute(HIKES_URL);
         }
         return view;
@@ -127,8 +127,8 @@ public class HikeFragment2 extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof HikeFragment2.OnListFragmentInteractionListener) {
-            mListener = (HikeFragment2.OnListFragmentInteractionListener) context;
+        if (context instanceof FavoritesFragment.OnListFragmentInteractionListener) {
+            mListener = (FavoritesFragment.OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
