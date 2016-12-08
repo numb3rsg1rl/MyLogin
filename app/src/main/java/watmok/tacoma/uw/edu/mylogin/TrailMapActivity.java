@@ -49,6 +49,11 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
     private static final String HIKES_URL = "http://cssgate.insttech.washington.edu/~debergma/hikes.php?cmd=hikes1";
     private static final int MY_PERMISSIONS_LOCATIONS = 0;
     private GoogleApiClient mGoogleApiClient;
+
+    /**
+     * sets up the activity, starts the download task and then loads the map
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,6 +133,10 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
 
         }
     }
+
+    /**
+     * get an instance of GoogleApiClient
+     */
     @Override
     protected void onStart() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -232,8 +241,8 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     /**
-     *
-     * @param marker
+     * behavior a infowindow click - open the HikeDetail for this trail
+     * @param marker the marker of the info window
      */
     @Override
     public void onInfoWindowClick(Marker marker) {
@@ -245,6 +254,10 @@ public class TrailMapActivity extends AppCompatActivity implements OnMapReadyCal
 
     }
 
+    /**
+     * behavior a long infowindow click - open the HikeDetail for this trail
+     * @param marker the marker of the info window
+     */
     @Override
     public void onInfoWindowLongClick(Marker marker) {
         String trailName = marker.getTitle();
